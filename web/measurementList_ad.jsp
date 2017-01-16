@@ -35,8 +35,6 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <script src="js/bootstrap.min.js"></script>
-
-        
         <script type="text/javascript" src="js/tableExport.js"></script>
         <script type="text/javascript" src="js/jquery.base64.js"></script>
         <script type="text/javascript" src="js/FileSaver.min.js"></script>
