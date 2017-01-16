@@ -153,13 +153,10 @@
           </div>
           <!-- End Box Head-->
           <div class="box-content"> 
-             
             <div class="cl">&nbsp;</div>
-            
             <form action="RegisterStressMeasurements" method="POST">
             <fieldset>
                 <center>
-                    
                     <table  cellpadding = "2" cellspacing="7" >
                         <tbody>
                             <tr>

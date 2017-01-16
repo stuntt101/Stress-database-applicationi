@@ -420,12 +420,12 @@
                         </script>
                         <div   class="btn-group"><button class="dropdown-toggle button" data-toggle="dropdown"><i class="fa fa-bars "></i> Export Table Data</button>
                             <ul   class="dropdown-menu " role="menu">
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'xml', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xml.png' width='24px'> XML</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'xml', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xml.png' width='24px'> XML</a></li>
                                 <li><a href="" onClick ="$('#measurements').tableExport({type: 'sql'});"> <img src='http://demos.w3lessons.info/assets/images/icons/sql.png' width='24px'> SQL</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'csv', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/csv.png' width='24px'> CSV</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'txt', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/txt.png' width='24px'> TXT</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'excel', escape: 'false',footers: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xls.png' width='24px'> XLS</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'doc', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/word.png' width='24px'> Word</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'csv', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/csv.png' width='24px'> CSV</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'txt', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/txt.png' width='24px'> TXT</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'excel', escape: 'false',footer: 'false',ignoreColumn:'[0,46]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xls.png' width='24px'> XLS</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'doc', escape: 'false',ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/word.png' width='24px'> Word</a></li>
                             </ul>
                         </div>
                     </div>

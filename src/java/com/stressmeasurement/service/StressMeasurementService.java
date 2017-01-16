@@ -318,6 +318,7 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
+    
       public List<String> searchByREFF(String reff) {
 
         String QUERY_BASED_ON_REFF_NAME = "SELECT DISTINCT(reff) from StressMeasurement s where s.reff like '";
@@ -330,6 +331,29 @@ public List<StressMeasurement> getAllStressMeasurements() {
             tx.begin();
 
             list = session.createQuery(QUERY_BASED_ON_REFF_NAME + reff + "%'").list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+      public List<String> searchByGroupGrade(String gg) {
+
+        String QUERY_BASED_ON_GROUP_GRADE = "SELECT DISTINCT(gg) from StressMeasurement s where s.gg like '";
+
+        List<String> list = new ArrayList<>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+
+            list = session.createQuery(QUERY_BASED_ON_GROUP_GRADE + gg + "%'").list();
             tx.commit();
         } catch (Exception e) {
             if (tx != null) {
