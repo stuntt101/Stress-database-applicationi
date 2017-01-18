@@ -26,10 +26,10 @@ public class Test {
      StressResult compute =new StressResult();
      
      
-     System.out.println("Principal EigenValues"+compute.getPrincipalEigenValues(matrix));
+     //System.out.println("Principal EigenValues"+compute.getPrincipalEigenValues(matrix));
     // System.out.println("#");
     // System.out.println("Principal EigenVectors"+compute.getPrincipalEigenVectors(matrix));
-    System.out.println("Principal EigenVectors"+compute.getPrincipalEigenVectors(matrix));
+    //System.out.println("Principal EigenVectors"+compute.getPrincipalEigenVectors(matrix));
         
 
     }
