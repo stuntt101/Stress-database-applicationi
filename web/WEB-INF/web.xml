@@ -20,6 +20,10 @@
         <servlet-name>StressMeasurementController</servlet-name>
         <servlet-class>com.stressmeasurement.controller.StressMeasurementController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CalculateStress</servlet-name>
+        <servlet-class>com.stressmeasurement.controller.CalculateStress</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AutoCompleteController</servlet-name>
         <url-pattern>/AutoCompleteController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>StressMeasurementController</servlet-name>
         <url-pattern>/StressMeasurementController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CalculateStress</servlet-name>
+        <url-pattern>/CalculateStress</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

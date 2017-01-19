@@ -47,7 +47,7 @@
                 $("#site").autocomplete("autocomplete/getSites.jsp");
                 $("#locality").autocomplete("autocomplete/getLocalities.jsp");
                 $("#gg").autocomplete("autocomplete/getGroupGrades.jsp");
-                
+
             });
         </script>
         <script type="text/javascript">
@@ -65,6 +65,32 @@
 
             });
         </script>
+
+        <script>
+            $(document).ready(function () {
+                $('#Calculate').click(function (event) {  
+                    $.ajax({
+                        url: '/CalculateStress',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            sx: $('#sx').val(),
+                            sy: $('#sy').val(),
+                            sz: $('#sz').val(),
+                            sxy: $('#sxy').val(),
+                            syz: $('#syz').val(),
+                            szx: $('#szx').val()
+                        },
+                        success: function (responseText) {
+                            
+                             alert(responseText);
+//                            $('#s1').text(responseText.s1);
+//                            $('#s2').text(responseText.s1);
+//                            $('#s3').text(responseText.s1);
+                        }
+                    });
+                });
+            });</script> 
         <title>New Record</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
@@ -121,8 +147,8 @@
             .inlineTable {
                 display: inline-block;
             }
-            
-            
+
+
             .formLegend { 
 
                 background-color: #B4886B;
@@ -241,7 +267,7 @@
                         <!-- End Box Head-->
                         <div class="box-content"> 
                             <div class="cl">&nbsp;</div>
-                           <form action="RegisterStressMeasurements" method="POST">
+                            <form action="RegisterStressMeasurements" method="POST">
                                 <fieldset class="dashed_fieldset">
                                     <br />
                                     <div style="display:block; width:100%">
@@ -382,7 +408,7 @@
 
                                                             </tr>
                                                             <tr>                           
-                                                                <td><label></label></td><td><button  class="button button2" type="reset" value="Calculate" >Calculate principal stresses and k ratios</button></td>
+                                                                <td><label></label></td><td><button  class="button button2" type="reset" value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
 
                                                             </tr>
 
@@ -430,40 +456,40 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td></td><td><legend class="formLegend"><b>Horizontal plane stresses</b></legend></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">S<sub>h</sub><span class="tooltiptext">Minor stress in the horizontal plane</span></label></td><td><input type="text" id="sh3"  name="sh3"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">S<sub>h</sub><span class="tooltiptext">Minor stress in the horizontal plane</span></label></td><td><input type="text" id="sh3"  name="sh3"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">k<sub>H</sub><span class="tooltiptext">Ratio of the major horizontal-plane stress (SH) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k1"  name="k1"/> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>H</sub><span class="tooltiptext">Ratio of the major horizontal-plane stress (SH) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k1"  name="k1"/> </td>
 
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">k<sub>h</sub><span class="tooltiptext">Ratio of the minor horizontal-plane stress (Sh) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k3"  name="k3"/></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>h</sub><span class="tooltiptext">Ratio of the minor horizontal-plane stress (Sh) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k3"  name="k3"/></td>
 
-                                                            </tr>
-                                                            
-                                                            <tr>
-                                                                <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
-                                                            </tr>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                        </tr>
                                                         </tbody>
                                                     </table>
                                                 </fieldset>
-                                              
+
                                             </div>
                                         </div> 
 
@@ -471,7 +497,7 @@
                                     <br/>
                                 </fieldset>
                                 <br/>
-                                        <fieldset class="dashed_fieldset">
+                                <fieldset class="dashed_fieldset">
                                     <br />
                                     <div style="display:block; width:100%">
                                         <div style="margin:0 auto;">
@@ -494,7 +520,7 @@
                                                 <center>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:20px;">
                                                         <tbody>
-                                                       
+
                                                             <tr>
                                                                 <td><label class="tooltip">Young's modulus<span class="tooltiptext">Modulus of elasticity of the rock at the measuring point</span></label></td><td><input type="text" id="dips3"  name="dips3"> </td>
                                                             </tr>
