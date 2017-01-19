@@ -20,9 +20,9 @@
 		<style type="text/css" title="currentStyle">
 			@import "media/css/demo_page.css";
 			@import "media/css/demo_table_jui.css";
-			@import "media/css/redmond/jquery-ui.custom.css";
+			@import "media/css/le-frog/jquery-ui.custom.css";
 		</style>
-
+                
  <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
         <link href="css/jquery.datatables.yadcf.css" rel="stylesheet" type="text/css" />
@@ -32,11 +32,9 @@
         <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
         <script src="js/jquery.dataTables.yadcf.js"></script>
         <script src="js/tableHeadFixer.js"></script>
-<!--        <link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <script src="js/bootstrap.min.js"></script>
-
-        
         <script type="text/javascript" src="js/tableExport.js"></script>
         <script type="text/javascript" src="js/jquery.base64.js"></script>
         <script type="text/javascript" src="js/FileSaver.min.js"></script>
@@ -331,7 +329,10 @@
 
 
 <style>
-        label {
+    label {
+            
+            font-weight: bold;}
+/*        label {
             color: #B4886B;
             font-weight: bold;
             font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial,bold, Helvetica, sans-serif;
@@ -342,7 +343,7 @@
         input, textarea, select { float: left;
                                   width:150px;
                                   -moz-border-radius: 4px; border-radius: 4px;
-                                  border: 1px solid #BB221E }
+                                  border: 1px solid #BB221E }*/
         </style>
 
 </head>
@@ -356,7 +357,6 @@
            request.setAttribute("listStressMeasurements", stressMeasurementService.getAllStressMeasurements());
            request.setAttribute("firstname", firstname);
            request.setAttribute("lastname", lastname);
-
         %>
          <c:if test="${not empty verified}">
             <script type="text/javascript" >
@@ -399,15 +399,20 @@
     <!-- End Small Nav -->
      </div>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<!--        <div align="left"> <a href="newEntry.jsp" class="add-button"><span>Add New Record</span></a></div>-->
-        <div align="right" ><a href="newEntry.jsp"  class="btn btn-primary" ><b>Add New Record</b></a></div>
+        <div align="right" ><a href="newEntry.jsp"  class="add-button" ><span><b>Add New Record</b></span></a></div>
+        </br>
+        </br>
+        </br>
+       
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         <div  class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div style="float: left;">
-                        <button onclick="toggler('myContent');"  type="button" id="update" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-cog"></i>Show/Hide columns</button>
-                        <button onclick="toggler('map'); initMap();"  type="button" id="update_two" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-cog"></i>Show Maps</button>
+
+                    <div id="bootstrap" style="float: left;">
+
+                        <button onclick="toggler('myContent');"  type="button" id="update" class="button "><i class="glyphicon glyphicon-cog"></i>Show/Hide columns</button>
+                        <button onclick="toggler('map'); initMap();"  type="button" id="update_two" class="button"><i class="glyphicon glyphicon-cog"></i>Show Maps</button>
                         <script>
                             $("#update_two").click(function () {
                                 $(this).text(function (i, v) {
@@ -415,34 +420,48 @@
                                 })
                             });
                         </script>
-                        <div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Table Data</button>
-                            <ul class="dropdown-menu " role="menu">
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'xml', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xml.png' width='24px'> XML</a></li>
+                        <div   class="btn-group"><button class="dropdown-toggle button" data-toggle="dropdown"><i class="fa fa-bars "></i> Export Table Data</button>
+                            <ul   class="dropdown-menu " role="menu">
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'xml', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xml.png' width='24px'> XML</a></li>
                                 <li><a href="" onClick ="$('#measurements').tableExport({type: 'sql'});"> <img src='http://demos.w3lessons.info/assets/images/icons/sql.png' width='24px'> SQL</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'csv', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/csv.png' width='24px'> CSV</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'txt', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/txt.png' width='24px'> TXT</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'excel', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xls.png' width='24px'> XLS</a></li>
-                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'doc', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/word.png' width='24px'> Word</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'csv', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/csv.png' width='24px'> CSV</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'txt', escape: 'false' ,ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/txt.png' width='24px'> TXT</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'excel', escape: 'false',footer: 'false',ignoreColumn:'[0,46]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xls.png' width='24px'> XLS</a></li>
+                                <li><a href="" onClick ="$('#measurements').tableExport({type: 'doc', escape: 'false',ignoreColumn:'[1,47]'});"> <img src='http://demos.w3lessons.info/assets/images/icons/word.png' width='24px'> Word</a></li>
                             </ul>
                         </div>
                     </div>
                     <div id="myContent" >
                         <div> 
-                            <br/> 
-                            <center>
+                            <br/>
+                             <br/> 
+                           
                                 <p>&nbsp;</p>
-                                <table  width="80%">
+                                   <!-- Content -->
+                                   <div id="show_content"  >
+                        <!-- Box -->
+                          <center> 
+                        <div class="box">
+                            <!-- Box Head -->
+                            <div class="box-head">
+                               <center> <h2 >Columns</h2> </center> 
+
+                            </div>
+                            <!-- End Box Head -->
+                            <!-- Table -->
+                            <div class="table">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                     <tbody>
                                         <tr>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> SM ID</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> AVG</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> GG</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> IG</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> COUNTRY</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> PROVINCE</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> LOCALITY</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> SITE</label></td>
-                                            <td><label><input type="checkbox" class="hide_show" checked="checked"/> LOCATION</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> SM ID</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> AVG</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> GG</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox"  checked="checked"/> IG</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> COUNTRY</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> PROVINCE</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> LOCALITY</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> SITE</label></td>
+                                            <td><label><input type="checkbox" class="hide_show checkbox" checked="checked"/> LOCATION</label></td>
                                         </tr>
                                         <tr>
                                             <td><label><input type="checkbox" class="hide_show" checked="checked"/> LONGITUDE</label></td>
@@ -499,18 +518,30 @@
                                             <td></td>
                                             <td></td>
                                         </tr>
-                                    <tbody>
-                                </table>
-                                <br />
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <button id="clear_all" class="btn btn-warning btn-fltr-clearAll btn-xs">Clear All</button>
-                                        <button id="select_all"class="btn btn-primary btn-fltr-selectAll btn-xs">Select All</button>
-                                    </div>
-                                </div>
-                                <br />
+                                        <tbody>
+                                            </table>
 
-                            </center>
+                                            </div>
+                                            <!-- Table -->
+                                            <br />
+                                           
+                        <div class="row">
+                            <center>
+                                    <div class="col-xs-12">
+                                        <button id="clear_all" class="btn btn-warning btn-fltr-clearAll btn-xs button">Clear All</button>
+                                        <button id="select_all"class="btn btn-primary btn-fltr-selectAll btn-xs button">Select All</button>
+                                    </div>
+                              </center>
+                             <br />
+                                </div>
+                                             </div>
+                                </center> 
+                                <br />
+                                            <!-- End Box -->
+
+                                           
+                                            <!-- End Content -->
+                          
                         </div>
                     </div> 
                     <center>
@@ -524,15 +555,18 @@
                     </center>
                     <div class="col-md-12">
 
-                        <div class="panel-heading list-panel-heading">
-
-                            <button onclick="refresh()" style="float: right;" type="button" id="update" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
-
-                        </div>
+                        
 
                     </div>
                 </div>
             </div>
+                <br/>
+                <div class="panel-heading list-panel-heading">
+<br/>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                            <button onclick="refresh()" style="float: right;" type="button" id="update" class="btn btn-primary btn-xs refresh-button button "><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+
+                        </div>
             <br>
             <br>
             <div  id="parent">
@@ -540,7 +574,7 @@
 
                     <thead>
                         <tr>
-                            
+                            <th>Action</th>
                             <th>SM ID</th>	
                             <th>AVG</th>	
                             <th>GG</th>	
@@ -591,7 +625,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                        
+                            <th></th>
                             <th id="sm_id"></th>	
                             <th id="avg" ></th>	
                             <th id="gg"></th>	
@@ -644,6 +678,7 @@
                         <c:forEach items="${listStressMeasurements}" var="list">
                             <fmt:formatDate value='${list.date}' pattern='dd/MM/yyyy' var="date" />
                             <tr class="first">
+                           <td ><a href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.smId}"/>">View $ Verify</a></td>
                                 <td><c:out value="${list.smId}" /></td>
                                 <td><c:out value="${list.avg}" /></td>
                                 <td><c:out value="${list.gg}" /></td>
