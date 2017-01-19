@@ -32,7 +32,7 @@
         <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
         <script src="js/jquery.dataTables.yadcf.js"></script>
         <script src="js/tableHeadFixer.js"></script>
-<!--        <link rel="stylesheet" href="css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <script src="js/bootstrap.min.js"></script>
 
@@ -392,10 +392,10 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <div style="float: left;">
+                    <div id="bootstrap" style="float: left;">
 
-                        <button onclick="toggler('myContent');"  type="button" id="update" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-cog"></i>Show/Hide columns</button>
-                        <button onclick="toggler('map'); initMap();"  type="button" id="update_two" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-cog"></i>Show Maps</button>
+                        <button onclick="toggler('myContent');"  type="button" id="update" class="button "><i class="glyphicon glyphicon-cog"></i>Show/Hide columns</button>
+                        <button onclick="toggler('map'); initMap();"  type="button" id="update_two" class="button "><i class="glyphicon glyphicon-cog"></i>Show Maps</button>
                         <script>
                             $("#update_two").click(function () {
                                 $(this).text(function (i, v) {
@@ -403,7 +403,7 @@
                                 })
                             });
                         </script>
-                        <div class="btn-group"><button class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Table Data</button>
+                        <div class="btn-group"><button class="button  dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bars"></i> Export Table Data</button>
                             <ul class="dropdown-menu " role="menu">
                                 <li><a href="" onClick ="$('#measurements').tableExport({type: 'xml', escape: 'false'});"> <img src='http://demos.w3lessons.info/assets/images/icons/xml.png' width='24px'> XML</a></li>
                                 <li><a href="" onClick ="$('#measurements').tableExport({type: 'sql'});"> <img src='http://demos.w3lessons.info/assets/images/icons/sql.png' width='24px'> SQL</a></li>
@@ -514,7 +514,7 @@
 
                         <div class="panel-heading list-panel-heading">
 
-                            <button onclick="refresh()" style="float: right;" type="button" id="update" class="btn btn-primary btn-xs refresh-button "><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+                            <button onclick="refresh()" style="float: right;" type="button" id="update" class="button"><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
 
                         </div>
 
