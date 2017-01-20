@@ -68,7 +68,8 @@
 
         <script>
             $(document).ready(function () {
-                $('#Calculate').click(function (event) {  
+                $('#Calculate').click(function (event) { 
+                    event.preventDefault();
                     $.ajax({
                         url: '/StressMeasurement/CalculateStress',
                         type: 'post',
