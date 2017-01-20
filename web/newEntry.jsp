@@ -271,6 +271,7 @@
                         <!-- End Box Head-->
                         <div class="box-content"> 
                             <div class="cl">&nbsp;</div>
+
                             <form action="RegisterStressMeasurements" method="POST" autocomplete="on">
                                 <fieldset class="dashed_fieldset">
                                     <br />
