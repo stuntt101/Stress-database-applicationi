@@ -27,23 +27,27 @@ public class Eigenvalues {
        
       Matrix A = new Matrix(vals);
       
-      A = A.transpose().times(A);
+      Matrix V = new Matrix(new double[][]{
+            {12.4800,  -6.7000},
+            {-6.7000,  21.2000}}
+        );
+      
+      V = V.transpose().times(V); 
 
       // compute the spectral decomposition
-      EigenvalueDecomposition e = A.eig();
-      Matrix V = e.getV().uminus();
-      Matrix D = e.getD();
+      EigenvalueDecomposition e = V.eig();
+       V = e.getV().uminus();
+      
 
       System.out.print("A =");
-      A.print(9, 6);
-      System.out.print("D =");
-      D.print(9, 6);
+      V.print(9, 6);
+      
       System.out.print("V =");
       V.print(9, 6);
       
-      System.out.print("n3x =");
-      Double n3x=V.get(0, 0);
-      System.out.print(n3x);
+      System.out.print("n2x =");
+      Double n2x=V.get(0, 0);
+      System.out.print(n2x);
       
       
    }

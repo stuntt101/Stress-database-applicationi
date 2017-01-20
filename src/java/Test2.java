@@ -1,7 +1,7 @@
 
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
-import com.stressmeasurement.service.StressResult;
+import com.stressmeasurement.service.StressCalculation;
 import java.util.ArrayList;
 import java.util.List;
 import org.jblas.DoubleMatrix;
@@ -61,7 +61,7 @@ public class Test2 {
         EigenvectorList.add(n1z);
 
         
-     StressResult compute =new StressResult();
+     StressCalculation compute =new StressCalculation();
      System.out.println("Bearings and Dips" +EigenvectorList);
      
      
