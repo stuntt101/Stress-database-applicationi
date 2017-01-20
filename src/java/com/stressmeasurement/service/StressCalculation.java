@@ -33,7 +33,7 @@ public class StressCalculation {
         List<Double> EigenValuesList = new ArrayList<Double>();// initialize a list to store eigenvalues
         ComplexDoubleMatrix eigenvalues = Eigen.eigenvalues(matrix);// compute eigenvalues
         for (ComplexDouble eigenvalue : eigenvalues.toArray()) {
-            Double value = Double.parseDouble(String.format("%.4f ", eigenvalue.abs()));
+            Double value = Double.parseDouble(String.format("%.2f ", eigenvalue.abs()));
             EigenValuesList.add(value);
         }
         //it returns Principal Eigen Values in the  order of [S3, S2, S1]
@@ -158,7 +158,7 @@ public class StressCalculation {
      * @param matrix matrix in which bearing is computed
      * @return bearing ,
      */
-    public Integer getBearings(Matrix matrix) {
+    public Integer getBearing(Matrix matrix) {
         Double BSH1;
         List<Double> EigenvectorList = getHorizontalEigenvectors(matrix);
         //calculate bearings using the  formula:

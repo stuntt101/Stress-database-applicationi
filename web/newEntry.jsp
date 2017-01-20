@@ -83,15 +83,24 @@
                             szx: $('#szx').val()
                         },
                         success: function (responseText) {
-                            
-                            // alert(responseText.s1);
+
                             $('#s1').val(responseText.s1);
                             $('#s2').val(responseText.s2);
                             $('#s3').val(responseText.s3);
-                            $('#sx').val(responseText.sx);
-//                            $('#s1').text(responseText.s1).val();
-//                            $('#s2').text(responseText.s2).val();
-//                            $('#s3').text(responseText.s3).val();
+                            $('#bs1').val(responseText.bs1);
+                            $('#bs2').val(responseText.bs2);
+                            $('#bs3').val(responseText.bs3);
+                            $('#dips1').val(responseText.dips1);
+                            $('#dips2').val(responseText.dips2);
+                            $('#dips3').val(responseText.dips3);
+                            $('#bsh1').val(responseText.bsh1);
+                            $('#sh1').val(responseText.sh1);
+                            $('#sh3').val(responseText.sh3);
+                            $('#k1').val(responseText.k1);
+                            $('#k3').val(responseText.k3);
+                            $('#kx').val(responseText.kx);
+                            $('#kz').val(responseText.kz);
+
                         }
                     });
                 });
@@ -528,7 +537,7 @@
                                                         <tbody>
 
                                                             <tr>
-                                                                <td><label class="tooltip">Young's modulus<span class="tooltiptext">Modulus of elasticity of the rock at the measuring point</span></label></td><td><input type="text" id="dips3"  name="dips3"> </td>
+                                                                <td><label class="tooltip">Young's modulus<span class="tooltiptext">Modulus of elasticity of the rock at the measuring point</span></label></td><td><input type="text" id="e"  name="e"> </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Poisson's ratio<span class="tooltiptext">Value of the Poisson’s ratio at the measuring poin</span></label></td><td><input type="text" id="e"  name="e"/></td>
