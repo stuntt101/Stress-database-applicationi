@@ -357,6 +357,7 @@
            request.setAttribute("listStressMeasurements", stressMeasurementService.getAllStressMeasurements());
            request.setAttribute("firstname", firstname);
            request.setAttribute("lastname", lastname);
+           request.setAttribute("user", user);
         %>
          <c:if test="${not empty verified}">
             <script type="text/javascript" >
@@ -380,10 +381,11 @@
     <div id="navigation">
       <ul>
         <li><a href="/StressMeasurement" class="active"><span>Home</span></a></li>
+        <li><a href="#"><span>Notifications</span></a></li>
         <li><a href="#"><span>Publications</span></a></li>
         <li><a href="#"><span>Conferences</span></a></li>
         <li><a href="#"><span>FAQs</span></a></li>
-        <li><a href="#"><span>Photo Gallery</span></a></li>
+        
         
       </ul>
     </div>

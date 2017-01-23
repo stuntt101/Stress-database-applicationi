@@ -7,19 +7,25 @@ package com.stressmeasurement.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -70,6 +76,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "StressMeasurement.findByNo", query = "SELECT s FROM StressMeasurement s WHERE s.no = :no"),
     @NamedQuery(name = "StressMeasurement.findByE", query = "SELECT s FROM StressMeasurement s WHERE s.e = :e"),
     @NamedQuery(name = "StressMeasurement.findByPr", query = "SELECT s FROM StressMeasurement s WHERE s.pr = :pr"),
+    @NamedQuery(name = "StressMeasurement.findByBhb", query = "SELECT s FROM StressMeasurement s WHERE s.bhb = :bhb"),
+    @NamedQuery(name = "StressMeasurement.findByBhd", query = "SELECT s FROM StressMeasurement s WHERE s.bhd = :bhd"),
     @NamedQuery(name = "StressMeasurement.findByRock", query = "SELECT s FROM StressMeasurement s WHERE s.rock = :rock"),
     @NamedQuery(name = "StressMeasurement.findBySeq", query = "SELECT s FROM StressMeasurement s WHERE s.seq = :seq"),
     @NamedQuery(name = "StressMeasurement.findByReff", query = "SELECT s FROM StressMeasurement s WHERE s.reff = :reff"),
@@ -174,6 +182,12 @@ public class StressMeasurement implements Serializable {
     @Column(name = "PR")
     private Float pr;
     @Size(max = 45)
+    @Column(name = "BHB")
+    private String bhb;
+    @Size(max = 45)
+    @Column(name = "BHD")
+    private String bhd;
+    @Size(max = 45)
     @Column(name = "ROCK")
     private String rock;
     @Size(max = 45)
@@ -190,6 +204,11 @@ public class StressMeasurement implements Serializable {
     @Size(max = 4)
     @Column(name = "VERIFIED")
     private String verified;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataReffId")
+    private List<Message> messageList;
+    @JoinColumn(name = "ADDED_BY", referencedColumnName = "username")
+    @ManyToOne
+    private User addedBy;
 
     public StressMeasurement() {
     }
@@ -518,6 +537,22 @@ public class StressMeasurement implements Serializable {
         this.pr = pr;
     }
 
+    public String getBhb() {
+        return bhb;
+    }
+
+    public void setBhb(String bhb) {
+        this.bhb = bhb;
+    }
+
+    public String getBhd() {
+        return bhd;
+    }
+
+    public void setBhd(String bhd) {
+        this.bhd = bhd;
+    }
+
     public String getRock() {
         return rock;
     }
@@ -564,6 +599,23 @@ public class StressMeasurement implements Serializable {
 
     public void setVerified(String verified) {
         this.verified = verified;
+    }
+
+    @XmlTransient
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
+    public User getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(User addedBy) {
+        this.addedBy = addedBy;
     }
 
     @Override

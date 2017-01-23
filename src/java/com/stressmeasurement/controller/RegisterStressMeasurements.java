@@ -6,6 +6,7 @@
 package com.stressmeasurement.controller;
 
 import com.stressmeasurement.entity.StressMeasurement;
+import com.stressmeasurement.entity.User;
 import com.stressmeasurement.service.StressMeasurementService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,7 +53,10 @@ public class RegisterStressMeasurements extends HttpServlet {
 StressMeasurementService stressMeasurementService = new StressMeasurementService();
 StressMeasurement stressMeasurement= new StressMeasurement();
  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
+  
+    HttpSession session = request.getSession(true);
+    User user = (User) session.getAttribute("user");
+    
         String avg = request.getParameter("avg");
         String gg = request.getParameter("gg");
         String ig = request.getParameter("ig");
@@ -95,7 +100,8 @@ StressMeasurement stressMeasurement= new StressMeasurement();
         String seq = request.getParameter("seq");
         String reff = request.getParameter("reff");
         String notes = request.getParameter("notes");
-        Integer avgb = Integer.parseInt(request.getParameter("avgb"));
+        String bhb= request.getParameter("bhb");
+        String bhd= request.getParameter("bhd");
         String verified = "No";  
         
         stressMeasurement.setAvg(avg);
@@ -141,7 +147,10 @@ StressMeasurement stressMeasurement= new StressMeasurement();
         stressMeasurement.setSeq(seq);
         stressMeasurement.setReff(reff);
         stressMeasurement.setNotes(notes);
-        stressMeasurement.setAvgb(avgb);
+        stressMeasurement.setBhb(bhb);
+        stressMeasurement.setBhd(bhd);
+        stressMeasurement.setAddedBy(user);
+       
         stressMeasurement.setVerified(verified);
         
         boolean result = stressMeasurementService.addStressMeasurement(stressMeasurement);
