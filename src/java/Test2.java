@@ -2,6 +2,7 @@
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
 import com.stressmeasurement.service.StressCalculation;
+import com.stressmeasurement.service.StressMeasurementService;
 import java.util.ArrayList;
 import java.util.List;
 import org.jblas.DoubleMatrix;
@@ -24,6 +25,10 @@ public class Test2 {
             {-1.88, 26.7, 4.32},
             {-6.70, 4.32, 21.2}}
         );
+     
+     StressMeasurementService serv = new StressMeasurementService();
+     int max = serv.getMaxIndexOfRecord();
+     
      
       Matrix matrix2 = new Matrix(new double[][]{
             {12.48, -1.88, -6.70},
@@ -62,8 +67,10 @@ public class Test2 {
 
         
      StressCalculation compute =new StressCalculation();
+     
      System.out.println("Bearings and Dips" +EigenvectorList);
      
+      System.out.println("Index " +max);
      
         
         
