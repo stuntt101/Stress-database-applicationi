@@ -200,6 +200,30 @@ public class NotificationService {
         return list;
 
     }
+       public List<Message> getMessages(User recipient, int flagRDeleted, int flagRRead) {
+
+        List<Message> list = new ArrayList<Message>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        String QUERY = "from Message m where m.recipientId='" + recipient.getUsername() + "'and m.flagRDeleted = '" + flagRDeleted + "'and m.flagRRead = '" + flagRRead +"'";
+
+        try {
+
+            tx = session.getTransaction();
+            tx.begin();
+            list = session.createQuery(QUERY).list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return list;
+
+    }
+       
        public List<Message> getReadMessages(User recipient, int flagRRead) {
 
         List<Message> list = new ArrayList<Message>();

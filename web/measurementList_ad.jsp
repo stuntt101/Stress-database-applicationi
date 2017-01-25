@@ -1,5 +1,5 @@
 <%-- 
-    Document   : index
+    Document   : measurementList_ad
     Created on : 05 Dec 2016, 10:42:30 AM
     Author     : LQwabe
 --%>
@@ -20,9 +20,9 @@
 		<style type="text/css" title="currentStyle">
 			@import "media/css/demo_page.css";
 			@import "media/css/demo_table_jui.css";
-			@import "media/css/le-frog/jquery-ui.custom.css";
+			@import "media/css/redmond/jquery-ui.custom.css";
 		</style>
-                
+
  <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
         <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
         <link href="css/jquery.datatables.yadcf.css" rel="stylesheet" type="text/css" />
@@ -35,6 +35,8 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
         <script src="js/bootstrap.min.js"></script>
+
+        
         <script type="text/javascript" src="js/tableExport.js"></script>
         <script type="text/javascript" src="js/jquery.base64.js"></script>
         <script type="text/javascript" src="js/FileSaver.min.js"></script>
@@ -44,7 +46,6 @@
         <script type="text/javascript" src="jspdf/jspdf.plugin.autotable.js"></script>
         <script type="text/javascript" src="jspdf/libs/base64.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBQZWgKPoDDQ_RYDhmls5AivINjg6boL8Isensor=false"></script>
-
 
        <script type="text/javascript">
             $(document).ready(function () {
@@ -354,13 +355,7 @@
             request.setAttribute("listStressMeasurements", stressMeasurementService.findByVerified(verified));
 
         %>
-         <c:if test="${not empty verified}">
-            <script type="text/javascript" >
-
-                alert('New stress Measurement record sucessfully verified');
-                location = '/StressMeasurement/measurementList_ad.jsp';
-            </script>
-        </c:if>
+        
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQZWgKPoDDQ_RYDhmls5AivINjg6boL8I&callback=initMap">
         </script>
     
@@ -375,7 +370,7 @@
     <!-- Main Nav -->
     <div id="navigation">
       <ul>
-        <li><a href="/StressMeasurement" class="active"><span>Home</span></a></li>
+        <li><a href="measurementList_ad.jsp" class="active"><span>Home</span></a></li>
         <li><a href="ad_notifications.jsp" ><span>Notifications</span></a></li>
         <li><a href="#"><span>Publications</span></a></li>
         <li><a href="#"><span>Conferences</span></a></li>

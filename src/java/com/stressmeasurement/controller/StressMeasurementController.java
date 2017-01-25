@@ -5,10 +5,15 @@
  */
 package com.stressmeasurement.controller;
 
+import com.stressmeasurement.entity.Message;
 import com.stressmeasurement.entity.StressMeasurement;
+import com.stressmeasurement.entity.User;
+import com.stressmeasurement.service.NotificationService;
 import com.stressmeasurement.service.StressMeasurementService;
+import com.stressmeasurement.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,13 +27,18 @@ import javax.servlet.http.HttpServletResponse;
 public class StressMeasurementController extends HttpServlet {
 
     private static final String VIEW_AND_VERIFY = "/verify.jsp";
-     private static final String ADMIN_MEASUREMENT_LIST="/measurementList_ad.jsp";
+    private static final String ADMIN_MEASUREMENT_LIST = "/measurementList_ad.jsp";
+    private static final String ADMIN_NOTIFICATIONS = "/ad_notifications.jsp";
     private static final long serialVersionUID = 1L;
     private final StressMeasurementService service;
+    private final NotificationService notificationService;
+    private final UserService userService;
 
     public StressMeasurementController() {
         super();
         service = new StressMeasurementService();
+        notificationService = new NotificationService();
+        userService = new UserService();
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -43,23 +53,104 @@ public class StressMeasurementController extends HttpServlet {
 
                 forward = VIEW_AND_VERIFY;
                 Integer smId = Integer.parseInt(request.getParameter("smId"));
+                Integer messageId = Integer.parseInt(request.getParameter("messageId"));
+                Message message = notificationService.getMessageById(messageId);
+                int flagRRead = 1;
+                message.setFlagRRead(flagRRead);
+                notificationService.updateMessage(message);
+                String senderId = request.getParameter("senderId");
+                User user = userService.getUserByUsername(senderId);
 
                 StressMeasurement stressMeasurement = service.getStressMeasurementById(smId);
                 request.setAttribute("stressMeasurement", stressMeasurement);
+                request.setAttribute("user", user);
+
+            }
+            if (action.equalsIgnoreCase("deleteMessage")) {
+
+                forward = ADMIN_NOTIFICATIONS;
+
+                Integer messageId = Integer.parseInt(request.getParameter("messageId"));
+                Message message = notificationService.getMessageById(messageId);
+
+                int flagRDeleted = 1;
+                message.setFlagRDeleted(flagRDeleted);
+                notificationService.updateMessage(message);
+                request.setAttribute("messsage_deleted", "messsage_deleted");
 
             }
             if (action.equalsIgnoreCase("verify")) {
-                forward = ADMIN_MEASUREMENT_LIST;
+                forward = ADMIN_NOTIFICATIONS;
                 Integer smId = Integer.parseInt(request.getParameter("smId"));
+                String username = request.getParameter("username");
                 String verified = "Yes";
                 StressMeasurement stressMeasurement = service.getStressMeasurementById(smId);
                 stressMeasurement.setVerified(verified);
                 service.updateStressMeasurement(stressMeasurement);
+
+                UserService userService = new UserService();
+                NotificationService notificationService = new NotificationService();
+                Message message = new Message();
+
+                User recipientId = userService.getUserByUsername(username);
+                User senderId = userService.getUserByUsername("admin");
+                String subject = "New Record" + "Reff:" + smId + "Approved";
+
+                StringBuilder messageContent = new StringBuilder();
+                messageContent.append("Dear" + recipientId.getFirstname() + "<br />\n");
+                messageContent.append("Your request to add new data approved: " + "<br />\n");
+                messageContent.append("Kind regards  " + "<br />\n");
+                messageContent.append("Admin  " + "<br />\n");
+                int flagSDeleted = 0;
+                int flagRDeleted = 0;
+                int flagRRead = 0;
+                Date sentDate = new Date();
+                StressMeasurement dataReffId = service.getStressMeasurementById(smId);
+                message.setSenderId(senderId);
+                message.setRecipientId(recipientId);
+                message.setSubject(subject);
+                message.setContent(messageContent.toString());
+                message.setFlagRDeleted(flagRDeleted);
+                message.setFlagSDeleted(flagSDeleted);
+                message.setFlagRRead(flagRRead);
+                message.setDataReffId(dataReffId);
+                message.setSentDate(sentDate);
+                notificationService.addMessage(message);
+
                 request.setAttribute("verified", "verified");
 
             }
+            if (action.equalsIgnoreCase("request_data_corrections")) {
+
+                forward = ADMIN_NOTIFICATIONS;
+
+                Message message = new Message();
+                Integer smId = Integer.parseInt(request.getParameter("smId"));
+                String recipientEmailAddress = request.getParameter("recipient");
+                User senderId = userService.getUserByUsername("admin");
+                User recipientId = userService.getUserByEmailAddress(recipientEmailAddress);
+                String subject = request.getParameter("subject");
+                String content = request.getParameter("content");
+                int flagSDeleted = 0;
+                int flagRDeleted = 0;
+                int flagRRead = 0;
+                Date sentDate = new Date();
+                StressMeasurement dataReffId = service.getStressMeasurementById(smId);
+                message.setSenderId(senderId);
+                message.setRecipientId(recipientId);
+                message.setSubject(subject);
+                message.setContent(content);
+                message.setFlagRDeleted(flagRDeleted);
+                message.setFlagSDeleted(flagSDeleted);
+                message.setFlagRRead(flagRRead);
+                message.setDataReffId(dataReffId);
+                message.setSentDate(sentDate);
+                notificationService.addMessage(message);
+                request.setAttribute("sent", "sent");
+
+            }
             if (action.equalsIgnoreCase("cancel")) {
-                forward = ADMIN_MEASUREMENT_LIST;
+                forward = ADMIN_NOTIFICATIONS;
             }
             RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);

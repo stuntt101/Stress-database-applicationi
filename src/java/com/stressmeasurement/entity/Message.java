@@ -51,7 +51,7 @@ public class Message implements Serializable {
     @Size(max = 45)
     @Column(name = "subject")
     private String subject;
-    @Size(max = 45)
+    @Size(max = 900)
     @Column(name = "content")
     private String content;
     @Basic(optional = false)

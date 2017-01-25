@@ -380,7 +380,7 @@
     <!-- Main Nav -->
     <div id="navigation">
       <ul>
-        <li><a href="/StressMeasurement" class="active"><span>Home</span></a></li>
+        <li><a href="measurementList_us.jsp" class="active"><span>Home</span></a></li>
         <li><a href="us_notifications.jsp" ><span>Notifications</span></a></li>
         <li><a href="#"><span>Publications</span></a></li>
         <li><a href="#"><span>Conferences</span></a></li>
