@@ -68,9 +68,10 @@
 
         <script>
             $(document).ready(function () {
-                $('#Calculate').click(function (event) {  
+                $('#Calculate').click(function (event) { 
+                    event.preventDefault();
                     $.ajax({
-                        url: '/CalculateStress',
+                        url: '/StressMeasurement/CalculateStress',
                         type: 'post',
                         dataType: 'json',
                         data: {
@@ -82,11 +83,30 @@
                             szx: $('#szx').val()
                         },
                         success: function (responseText) {
-                            
-                             alert(responseText);
-//                            $('#s1').text(responseText.s1);
-//                            $('#s2').text(responseText.s1);
-//                            $('#s3').text(responseText.s1);
+
+                            $('#s1').val(responseText.s1);
+                            $('#s2').val(responseText.s2);
+                            $('#s3').val(responseText.s3);
+                            $('#bs1').val(responseText.bs1);
+                            $('#bs2').val(responseText.bs2);
+                            $('#bs3').val(responseText.bs3);
+                            $('#dips1').val(responseText.dips1);
+                            $('#dips2').val(responseText.dips2);
+                            $('#dips3').val(responseText.dips3);
+                            $('#bsh1').val(responseText.bsh1);
+                            $('#sh1').val(responseText.sh1);
+                            $('#sh3').val(responseText.sh3);
+                            $('#k1').val(responseText.k1);
+                            $('#k3').val(responseText.k3);
+                            $('#kx').val(responseText.kx);
+                            $('#kz').val(responseText.kz);
+
+                        },
+                        error: function (responseText) {
+
+                            alert("Something went wrong " + "Please try again");
+                            // Somehow process the validation messages,
+                            // like you seem to be doing already.
                         }
                     });
                 });
@@ -220,8 +240,19 @@
             List<String> list = stressMeasurementService.getAllCountries();
             List<StressMeasurement> StressMeasurements = stressMeasurementService.getAllStressMeasurements();
             int new_record_Id = StressMeasurements.size() + 1;
+            int new_record_Index = stressMeasurementService.getMaxIndexOfRecord() + 1;
             request.setAttribute("countries", list);
             request.setAttribute("new_record_Id", new_record_Id);
+            request.setAttribute("new_record_Index", new_record_Index);
+
+            User user = (User) session.getAttribute("user");
+            String firstname = user.getFirstname();
+            String lastname = user.getLastname();
+            request.setAttribute("firstname", firstname);
+            request.setAttribute("lastname", lastname);
+            request.setAttribute("user", user);
+
+
         %>
         <!-- Header -->
         <div id="header">
@@ -229,22 +260,23 @@
                 <!-- Logo + Top Nav -->
                 <div id="top">
                     <h1 id="logo" >Stress Measurements Record</h1>
-                    <div id="top-navigation">  <span></span> <a href="#">Help</a> </div>
-                </div>
-                <!-- End Logo + Top Nav -->
-                <!-- Main Nav -->
-                <div id="navigation">
-                    <ul>
-                        <li><a href="/StressMeasurement/measurementList_us.jsp" class="active"><span>Home</span></a></li>
-                        <li><a href="#"><span>Publications</span></a></li>
-                        <li><a href="#"><span>Conferences</span></a></li>
-                        <li><a href="#"><span>FAQs</span></a></li>
-                        <li><a href="#"><span>Photo Gallery</span></a></li>
-                    </ul>
-                </div>
-                <!-- End Main Nav -->
+                    <div id="top-navigation">  <a href="#"><strong>${firstname} ${lastname}</strong></a> <span>|</span><a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>    </div>
             </div>
+            <!-- End Logo + Top Nav -->
+            <!-- Main Nav -->
+            <div id="navigation">
+                <ul>
+                    <li><a href="/StressMeasurement/measurementList_us.jsp" class="active"><span>Home</span></a></li>
+                    <li><a href="us_notifications.jsp"><span>Notifications</span></a></li>
+                    <li><a href="#"><span>Publications</span></a></li>
+                    <li><a href="#"><span>Conferences</span></a></li>
+                    <li><a href="#"><span>FAQs</span></a></li>
+
+                </ul>
+            </div>
+            <!-- End Main Nav -->
         </div>
+
         <!-- End Header -->
         <!-- Container -->
 
@@ -263,17 +295,21 @@
                         <!-- Box Head -->
                         <div class="box-head">
                             <h2 class="left"><strong>New Record #${new_record_Id}</strong></h2>
+
                         </div>
                         <!-- End Box Head-->
                         <div class="box-content"> 
                             <div class="cl">&nbsp;</div>
-                            <form action="RegisterStressMeasurements" method="POST">
+
+                            <form action="RegisterStressMeasurements" method="POST" autocomplete="on">
+                                <input type="hidden" id="sm_id"  name="sm_id" value="${new_record_Index}"> 
                                 <fieldset class="dashed_fieldset">
                                     <br />
                                     <div style="display:block; width:100%">
                                         <div style="margin:0 auto;">
                                             <center>
                                                 <center>
+
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;margin-left:30px;">
                                                         <tbody>
                                                             <tr>
@@ -408,7 +444,7 @@
 
                                                             </tr>
                                                             <tr>                           
-                                                                <td><label></label></td><td><button  class="button button2" type="reset" value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
+                                                                <td><label></label></td><td><button  class="button button2"  value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
 
                                                             </tr>
 
@@ -522,10 +558,10 @@
                                                         <tbody>
 
                                                             <tr>
-                                                                <td><label class="tooltip">Young's modulus<span class="tooltiptext">Modulus of elasticity of the rock at the measuring point</span></label></td><td><input type="text" id="dips3"  name="dips3"> </td>
+                                                                <td><label class="tooltip">Young's modulus<span class="tooltiptext">Modulus of elasticity of the rock at the measuring point(GPa)</span></label></td><td><input type="text" id="e"  name="e"></input><span style="margin-left:-35px; color: #bdbdbd;">GPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Poisson's ratio<span class="tooltiptext">Value of the Poisson’s ratio at the measuring poin</span></label></td><td><input type="text" id="e"  name="e"/></td>
+                                                                <td><label class="tooltip">Poisson's ratio<span class="tooltiptext">Value of the Poisson’s ratio at the measuring point</span></label></td><td><input type="text" id="pr"  name="pr"</input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Number of Measurements<span class="tooltiptext">For averaged records, the number of measurements making up the record</span></label></td><td><input type="text" id="no"  name="no"/> </td>
@@ -537,11 +573,11 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="margin-right: 5px;;">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">Borehole bearing<span class="tooltiptext">Bearing/azimuth of the borehole in which the measurement was done</span></label></td><td><input type="text" id="borehole_bearing"  name="borehole_bearing"/></td>
+                                                                <td><label class="tooltip">Borehole bearing<span class="tooltiptext">Bearing/azimuth of the borehole in which the measurement was done</span></label></td><td><input type="text" id="bhb"  name="bhb"/></td>
 
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Borehole dip<span class="tooltiptext">Dip/plunge of the borehole in which the measurement was done</span></label></td><td><input type="text" id="borehole_dip"  name="borehole_dip"/> </td>
+                                                                <td><label class="tooltip">Borehole dip<span class="tooltiptext">Dip/plunge of the borehole in which the measurement was done</span></label></td><td><input type="text" id="bhd"  name="bhd"/> </td>
 
                                                             </tr>
                                                             <tr>

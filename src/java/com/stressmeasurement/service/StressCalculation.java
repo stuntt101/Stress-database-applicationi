@@ -158,7 +158,7 @@ public class StressCalculation {
      * @param matrix matrix in which bearing is computed
      * @return bearing ,
      */
-    public Integer getBearings(Matrix matrix) {
+    public Integer getBearing(Matrix matrix) {
         Double BSH1;
         List<Double> EigenvectorList = getHorizontalEigenvectors(matrix);
         //calculate bearings using the  formula:

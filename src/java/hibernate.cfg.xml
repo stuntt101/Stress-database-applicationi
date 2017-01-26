@@ -9,5 +9,6 @@
     <property name="hibernate.connection.password">13579</property>
     <mapping class="com.stressmeasurement.entity.StressMeasurement"/>
     <mapping class="com.stressmeasurement.entity.User"/>
+    <mapping class="com.stressmeasurement.entity.Message"/>
   </session-factory>
 </hibernate-configuration>

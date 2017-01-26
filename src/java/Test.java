@@ -40,10 +40,15 @@ public class Test {
 
         StressCalculation compute = new StressCalculation();
 
-        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixB));
-        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(2));
-         System.out.println("S2=" + compute.getPrincipalEigenvalues(matrixB).get(1));
-          System.out.println("S3=" + compute.getPrincipalEigenvalues(matrixB).get(0));
+        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixC));
+        
+        for(int i=0;i<compute.getPrincipalEigenvalues(matrixB).size();i++){
+        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(i));
+        
+        }
+//        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(2));
+//         System.out.println("S2=" + compute.getPrincipalEigenvalues(matrixB).get(1));
+//          System.out.println("S3=" + compute.getPrincipalEigenvalues(matrixB).get(0));
          
        // System.out.println("#");
         //System.out.println("BSH1  " + compute.getBearings(matrixD));

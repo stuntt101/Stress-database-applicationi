@@ -5,8 +5,6 @@
  */
 package com.stressmeasurement.service;
 
-
-
 import com.stressmeasurement.hibernate.util.HibernateUtil;
 import com.stressmeasurement.entity.*;
 import java.util.ArrayList;
@@ -24,35 +22,34 @@ public class StressMeasurementService {
     /**
      *
      * @param stressMeasurement
-     * @return 
+     * @return
      */
     public boolean addStressMeasurement(StressMeasurement stressMeasurement) {
-	Session session = HibernateUtil.getSessionFactory().openSession();
-	
-        if (isStressMeasurementExists(stressMeasurement)) {
-	    return false;
-	}
+        Session session = HibernateUtil.getSessionFactory().openSession();
 
-	Transaction tx = null;
-	try {
-	    tx = session.getTransaction();
-	    tx.begin();
-	    session.saveOrUpdate(stressMeasurement);
-	    tx.commit();
-	} catch (Exception e) {
-	    if (tx != null) {
-		tx.rollback();
-	    }
-	    e.printStackTrace();
-	} finally {
-	    session.close();
-	}
-	return true;
+        if (isStressMeasurementExists(stressMeasurement)) {
+            return false;
+        }
+
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.saveOrUpdate(stressMeasurement);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return true;
     }
-    
-    
+
     public void deleteStressMeasurement(Integer id) {
-	Transaction trns = null;
+        Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns = session.beginTransaction();
@@ -70,8 +67,9 @@ public class StressMeasurementService {
         }
 
     }
+
     public void updateStressMeasurement(StressMeasurement stressMeasurement) {
-	Transaction trns = null;
+        Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns = session.beginTransaction();
@@ -88,53 +86,75 @@ public class StressMeasurementService {
         }
 
     }
-public List<StressMeasurement> getAllStressMeasurements() {
-	List<StressMeasurement> list = new ArrayList<StressMeasurement>();
-	Session session = HibernateUtil.getSessionFactory().openSession();
-	Transaction tx = null;
-	try {
-	    tx = session.getTransaction();
-	    tx.begin();
-	    list = session.createQuery("from StressMeasurement").list();
-	    tx.commit();
-	} catch (Exception e) {
-	    if (tx != null) {
-		tx.rollback();
-	    }
-	    e.printStackTrace();
-	} finally {
-	    session.close();
-	}
-	return list;
-    }
 
-
-    public boolean isStressMeasurementExists(StressMeasurement stressMeasurement) {
-	Session session = HibernateUtil.getSessionFactory().openSession();
-	boolean result = false;
-	Transaction tx = null;
-	try {
-	    tx = session.getTransaction();
-	    tx.begin();
-	    Query query = session.createQuery("from StressMeasurement where id='" + stressMeasurement.getSmId() + "'");
-	    StressMeasurement mng = (StressMeasurement) query.uniqueResult();
-	    tx.commit();
-	    if (mng != null) {
-		result = true;
-	    }
-	} catch (Exception ex) {
-	    if (tx != null) {
-		tx.rollback();
-	    }
-	} finally {
-	    session.close();
-	}
-	return result;
-    }
-     public StressMeasurement getStressMeasurementById(Integer id) {
+    public List<StressMeasurement> getAllStressMeasurements() {
+        List<StressMeasurement> list = new ArrayList<StressMeasurement>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-       StressMeasurement mng =null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            list = session.createQuery("from StressMeasurement").list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
+
+    public boolean isStressMeasurementExists(StressMeasurement stressMeasurement) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        boolean result = false;
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from StressMeasurement where id='" + stressMeasurement.getSmId() + "'");
+            StressMeasurement mng = (StressMeasurement) query.uniqueResult();
+            tx.commit();
+            if (mng != null) {
+                result = true;
+            }
+        } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    public Integer getMaxIndexOfRecord() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        Integer maxNo = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("SELECT MAX(smId) from StressMeasurement");
+            maxNo = (Integer) query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return maxNo;
+    }
+
+    public StressMeasurement getStressMeasurementById(Integer id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        StressMeasurement mng = null;
         try {
             tx = session.getTransaction();
             tx.begin();
@@ -149,17 +169,15 @@ public List<StressMeasurement> getAllStressMeasurements() {
         } finally {
             session.close();
         }
-        return  mng;
+        return mng;
     }
-    
-    
-        public List<String> getAllCountries() {
+
+    public List<String> getAllCountries() {
 
         List<String> list = new ArrayList<String>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
 
-        
         String QUERY = "SELECT DISTINCT(country) from StressMeasurement";
 
         try {
@@ -179,7 +197,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         return list;
 
     }
-      public List<String> searchByLocation(String location) {
+
+    public List<String> searchByLocation(String location) {
 
         String QUERY_BASED_ON_LOCATION_NAME = "SELECT DISTINCT(location) from StressMeasurement s where s.location like '";
 
@@ -202,7 +221,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-      public List<String> searchBySite(String site) {
+
+    public List<String> searchBySite(String site) {
 
         String QUERY_BASED_ON_SITE_NAME = "SELECT DISTINCT(site) from StressMeasurement s where s.site like '";
 
@@ -225,8 +245,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-      
-      public List<String> searchByLocality(String locality) {
+
+    public List<String> searchByLocality(String locality) {
 
         String QUERY_BASED_ON_LOCALITY_NAME = "SELECT DISTINCT(locality) from StressMeasurement s where s.locality like '";
 
@@ -249,7 +269,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-        public List<String> searchByMethod(String method) {
+
+    public List<String> searchByMethod(String method) {
 
         String QUERY_BASED_ON_METHOD_NAME = "SELECT DISTINCT(method) from StressMeasurement s where s.method like '";
 
@@ -272,7 +293,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-         public List<String> searchByRock(String rock) {
+
+    public List<String> searchByRock(String rock) {
 
         String QUERY_BASED_ON_METHOD_NAME = "SELECT DISTINCT(rock) from StressMeasurement s where s.rock like '";
 
@@ -295,6 +317,7 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
+
     public List<String> searchBySEQ(String seq) {
 
         String QUERY_BASED_ON_SEQ_NAME = "SELECT DISTINCT(seq) from StressMeasurement s where s.seq like '";
@@ -318,8 +341,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-    
-      public List<String> searchByREFF(String reff) {
+
+    public List<String> searchByREFF(String reff) {
 
         String QUERY_BASED_ON_REFF_NAME = "SELECT DISTINCT(reff) from StressMeasurement s where s.reff like '";
 
@@ -342,7 +365,8 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-      public List<String> searchByGroupGrade(String gg) {
+
+    public List<String> searchByGroupGrade(String gg) {
 
         String QUERY_BASED_ON_GROUP_GRADE = "SELECT DISTINCT(gg) from StressMeasurement s where s.gg like '";
 
@@ -365,28 +389,26 @@ public List<StressMeasurement> getAllStressMeasurements() {
         }
         return list;
     }
-   
-      public List<StressMeasurement> findByVerified(String verified) {
-	List<StressMeasurement> list = new ArrayList<StressMeasurement>();
-	Session session = HibernateUtil.getSessionFactory().openSession();
-	Transaction tx = null;
-	try {
-	    tx = session.getTransaction();
-	    tx.begin();
+
+    public List<StressMeasurement> findByVerified(String verified) {
+        List<StressMeasurement> list = new ArrayList<StressMeasurement>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
             Query query = session.createQuery("from StressMeasurement where verified='" + verified + "'");
-	    list = query.list();
-	    tx.commit();
-	} catch (Exception e) {
-	    if (tx != null) {
-		tx.rollback();
-	    }
-	    e.printStackTrace();
-	} finally {
-	    session.close();
-	}
-	return list;
+            list = query.list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
     }
-    
-     
-    
+
 }

@@ -6,16 +6,20 @@
 package com.stressmeasurement.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname"),
     @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
     @NamedQuery(name = "User.findByEmailAddress", query = "SELECT u FROM User u WHERE u.emailAddress = :emailAddress"),
+    @NamedQuery(name = "User.findByMineName", query = "SELECT u FROM User u WHERE u.mineName = :mineName"),
     @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role")})
 public class User implements Serializable {
 
@@ -59,10 +64,19 @@ public class User implements Serializable {
     @Size(max = 45)
     @Column(name = "email_address")
     private String emailAddress;
+    @Size(max = 45)
+    @Column(name = "mine_name")
+    private String mineName;
     @Basic(optional = false)
     @NotNull
     @Column(name = "role")
     private int role;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "senderId")
+    private List<Message> messageList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipientId")
+    private List<Message> messageList1;
+    @OneToMany(mappedBy = "addedBy")
+    private List<StressMeasurement> stressMeasurementList;
 
     public User() {
     }
@@ -119,12 +133,47 @@ public class User implements Serializable {
         this.emailAddress = emailAddress;
     }
 
+    public String getMineName() {
+        return mineName;
+    }
+
+    public void setMineName(String mineName) {
+        this.mineName = mineName;
+    }
+
     public int getRole() {
         return role;
     }
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @XmlTransient
+    public List<Message> getMessageList() {
+        return messageList;
+    }
+
+    public void setMessageList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
+    @XmlTransient
+    public List<Message> getMessageList1() {
+        return messageList1;
+    }
+
+    public void setMessageList1(List<Message> messageList1) {
+        this.messageList1 = messageList1;
+    }
+
+    @XmlTransient
+    public List<StressMeasurement> getStressMeasurementList() {
+        return stressMeasurementList;
+    }
+
+    public void setStressMeasurementList(List<StressMeasurement> stressMeasurementList) {
+        this.stressMeasurementList = stressMeasurementList;
     }
 
     @Override
