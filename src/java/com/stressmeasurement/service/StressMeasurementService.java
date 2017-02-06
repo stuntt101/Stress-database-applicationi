@@ -106,6 +106,26 @@ public class StressMeasurementService {
         }
         return list;
     }
+      public List<StressMeasurement> getAllStressMeasurementsAddedBy(User user) {
+        List<StressMeasurement> list = new ArrayList<StressMeasurement>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from StressMeasurement where addedBy='" + user.getUsername() + "'");
+            list = query.list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
 
     public boolean isStressMeasurementExists(StressMeasurement stressMeasurement) {
         Session session = HibernateUtil.getSessionFactory().openSession();
