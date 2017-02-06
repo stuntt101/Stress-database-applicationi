@@ -71,7 +71,7 @@
                 $('#Calculate').click(function (event) { 
                     event.preventDefault();
                     $.ajax({
-                        url: '/StressMeasurement/CalculateStress',
+                        url: 'CalculateStress',
                         type: 'post',
                         dataType: 'json',
                         data: {
@@ -104,7 +104,7 @@
                         },
                         error: function (responseText) {
 
-                            alert("Something went wrong " + "Please try again");
+                            alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero "+"Then try again ");
                             // Somehow process the validation messages,
                             // like you seem to be doing already.
                         }
@@ -118,7 +118,7 @@
 
         <style>
             label{
-                color: #B4886B;
+                color: #555555;
                 font-weight: bold;
                 font-size:12px;
                 font:  HelveticaNeue, Verdana, Arial,bold, Helvetica, sans-serif;
@@ -156,7 +156,7 @@
             input, textarea, select{ float: left;
                                      width:150px;
                                      -moz-border-radius: 4px; border-radius: 4px;
-                                     border: 1px solid #BB221E }
+                                     border: 1px solid #555555 }
             .button2 { float: left;
                        width:150px;
                        -moz-border-radius: 4px; border-radius: 4px;
@@ -171,7 +171,7 @@
 
             .formLegend { 
 
-                background-color: #B4886B;
+                background-color: #0E8EAB;
                 font-weight: bold;
                 font-size:12px;
                 color: white; -webkit-border-radius: 4px; 
@@ -217,7 +217,7 @@
             .tooltip .tooltiptext {
                 visibility: hidden;
                 width: 120px;
-                background-color: #ba4c32;
+                background-color: #0E8EAB;
                 color: #fff;
                 font-weight: bold;
                 text-align: center;
@@ -239,10 +239,10 @@
         <%StressMeasurementService stressMeasurementService = new StressMeasurementService();
             List<String> list = stressMeasurementService.getAllCountries();
             List<StressMeasurement> StressMeasurements = stressMeasurementService.getAllStressMeasurements();
-            int new_record_Id = StressMeasurements.size() + 1;
+//            int new_record_Id = StressMeasurements.size() + 1;
             int new_record_Index = stressMeasurementService.getMaxIndexOfRecord() + 1;
             request.setAttribute("countries", list);
-            request.setAttribute("new_record_Id", new_record_Id);
+//            request.setAttribute("new_record_Id", new_record_Id);
             request.setAttribute("new_record_Index", new_record_Index);
 
             User user = (User) session.getAttribute("user");
@@ -254,36 +254,36 @@
 
 
         %>
-        <!-- Header -->
+ <!-- Header -->
         <div id="header">
             <div class="shell">
                 <!-- Logo + Top Nav -->
                 <div id="top">
                     <h1 id="logo" >Stress Measurements Record</h1>
-                    <div id="top-navigation">  <a href="#"><strong>${firstname} ${lastname}</strong></a> <span>|</span><a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>    </div>
+                    <div id="top-navigation"> <a href="#"><strong>${firstname} ${lastname}</strong></a> <span><b>|</b></span> <a href="#">Help</a> <span><b>|</b></span> <a href="#">Profile Settings</a> <span><b>|</b></span> <a href="logout.jsp">Log out</a> </div>
+                </div>
+                <!-- End Logo + Top Nav -->
+                <!-- Main Nav -->
+                <div id="navigation">
+                    <ul>
+                        <li><a href="measurementList_us.jsp" class="active" ><span>Home</span></a></li>
+                        <li><a href="us_notifications.jsp" ><span>Notifications</span></a></li>
+                        <li><a href="#"><span>Publications</span></a></li>
+                        <li><a href="#"><span>Conferences</span></a></li>
+                        <li><a href="#"><span>FAQs</span></a></li>
+                    </ul>
+                </div>
+                <!-- End Main Nav -->
             </div>
-            <!-- End Logo + Top Nav -->
-            <!-- Main Nav -->
-            <div id="navigation">
-                <ul>
-                    <li><a href="/StressMeasurement/measurementList_us.jsp" class="active"><span>Home</span></a></li>
-                    <li><a href="us_notifications.jsp"><span>Notifications</span></a></li>
-                    <li><a href="#"><span>Publications</span></a></li>
-                    <li><a href="#"><span>Conferences</span></a></li>
-                    <li><a href="#"><span>FAQs</span></a></li>
-
-                </ul>
-            </div>
-            <!-- End Main Nav -->
         </div>
-
+                <hr style="height:3px;border:none;color:#004a8d;background-color:#004a8d; " />
         <!-- End Header -->
         <!-- Container -->
 
         <div id="container">
             <div class="shell">
                 <!-- Small Nav -->
-                <div class="small-nav"> <a href="/StressMeasurement/measurementList_us.jsp">Home</a> <span>&gt;</span> New Record</div>
+                <div class="small-nav"> <a href="measurementList_us.jsp">Home</a> <span>&gt;</span> New Record</div>
                 <!-- End Small Nav -->
             </div>
             <!-- Content -->
@@ -294,7 +294,7 @@
                     <div class="box">
                         <!-- Box Head -->
                         <div class="box-head">
-                            <h2 class="left"><strong>New Record #${new_record_Id}</strong></h2>
+                            <h2 class="left"><strong>New Record #${new_record_Index}</strong></h2>
 
                         </div>
                         <!-- End Box Head-->
@@ -313,7 +313,7 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;margin-left:30px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td ><label class="tooltip">Country<span class="tooltiptext">Country within which the measurement was done</span></label></td><td><select  id="country" name="country"onchange="showTd(this)">
+                                                                <td ><label class="tooltip">Country<span class="tooltiptext">Country within which the measurement was done</span></label></td><td><select  id="country" name="country"onchange="showTd(this)" required>
                                                                         <option selected value="">Select Country</option>
                                                                         <c:forEach items="${countries}" var="list">
                                                                             <option value="<c:out value="${list}"/>"><c:out value="${list}"/></option>
@@ -338,10 +338,10 @@
                                                                 <td><label class="tooltip">Locality<span class="tooltiptext">Mine or project where the measurement was done </span></label></td><td><input type="text" id="locality"  name="locality"/> </td>
                                                             </tr>
                                                             <tr> 
-                                                                <td><label class="tooltip">Site<span class="tooltiptext">Location on the mine or project where the measurement was done (e.g. 112 level, haulage east).</span></label></td><td><input type="text" id="site"  name="site"/></td>
+                                                                <td><label class="tooltip">Site<span class="tooltiptext">Location on the mine or project where the measurement was done (e.g. 112 level, haulage east).</span></label></td><td><input type="text" id="site"  name="site" required/></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Location<span class="tooltiptext">Location of the measurement (e.g. Borehole 2 at 4.5m)</span></label></td><td><input type="text" id="location"  name="location"/> </td>
+                                                                <td><label class="tooltip">Location<span class="tooltiptext">Location of the measurement (e.g. Borehole 2 at 4.5m)</span></label></td><td><input type="text" id="location"  name="location" required/> </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -395,7 +395,7 @@
                                                                 <td><label class="tooltip">Expected vertical stress<span class="tooltiptext">Expected vertical stress at the measurement horizon (ρgH or estimated from numerical models)</span></label></td><td><input type="text" id="sob"  name="sob"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Date<span class="tooltiptext">Date when the stress measurement was done</span></label></td><td><input type="text" id="date"  name="date"/></td>
+                                                                <td><label class="tooltip">Date<span class="tooltiptext">Date when the stress measurement was done</span></label></td><td><input type="text" id="date"  name="date" required/></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -456,71 +456,71 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">S<sub>1</sub><span class="tooltiptext">Major principal stress</span></label></td><td><input type="text" id="s1"  name="s1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">S<sub>1</sub><span class="tooltiptext">Major principal stress</span></label></td><td><input type="text" id="s1"  name="s1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">S<sub>2</sub><span class="tooltiptext">Intermediate principal stress</span></label></td><td><input type="text" id="s2"  name="s2"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">S<sub>2</sub><span class="tooltiptext">Intermediate principal stress</span></label></td><td><input type="text" id="s2"  name="s2" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">S<sub>3</sub><span class="tooltiptext">Minor principal stress</span></label></td><td><input type="text" id="s3"  name="s3"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">S<sub>3</sub><span class="tooltiptext">Minor principal stress</span></label></td><td><input type="text" id="s3"  name="s3" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>1</sub><span class="tooltiptext">Bearing angle/azimuth of the major principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs1"  name="bs1"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>1</sub><span class="tooltiptext">Bearing angle/azimuth of the major principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs1"  name="bs1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>2</sub><span class="tooltiptext">Bearing angle/azimuth of the intermediate principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs2"  name="bs2"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>2</sub><span class="tooltiptext">Bearing angle/azimuth of the intermediate principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs2"  name="bs2" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>3</sub><span class="tooltiptext">Bearing angle/azimuth of the minor principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs3"  name="bs3"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>3</sub><span class="tooltiptext">Bearing angle/azimuth of the minor principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs3"  name="bs3" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>1</sub><span class="tooltiptext">Dip/plunge of the major principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips1"  name="dips1"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>1</sub><span class="tooltiptext">Dip/plunge of the major principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips1"  name="dips1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>2</sub><span class="tooltiptext">Dip/plunge of the intermediate principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips2"  name="dips2"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>2</sub><span class="tooltiptext">Dip/plunge of the intermediate principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips2"  name="dips2" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>3</sub><span class="tooltiptext">Dip/plunge of the minor principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips3"  name="dips3"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>3</sub><span class="tooltiptext">Dip/plunge of the minor principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips3"  name="dips3" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
 
                                                         </tbody>
                                                     </table>
                                                 </fieldset>
                                                 <fieldset class="inline" style="height: 300px;">
-                                                    <legend class="formLegend"><b>____</b></legend>
+                                                    <legend class="formLegend"><b>__</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
                                                         <tbody>
                                                             <tr>
                                                                 <td></td><td><legend class="formLegend"><b>Horizontal plane stresses</b></legend></td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">S<sub>h</sub><span class="tooltiptext">Minor stress in the horizontal plane</span></label></td><td><input type="text" id="sh3"  name="sh3"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            <td><label class="tooltip">S<sub>h</sub><span class="tooltiptext">Minor stress in the horizontal plane</span></label></td><td><input type="text" id="sh3"  name="sh3" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                         </tr>
                                                         <tr>
                                                             <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>H</sub><span class="tooltiptext">Ratio of the major horizontal-plane stress (SH) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k1"  name="k1"/> </td>
+                                                            <td><label class="tooltip">k<sub>H</sub><span class="tooltiptext">Ratio of the major horizontal-plane stress (SH) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k1"  name="k1" readonly/> </td>
 
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>h</sub><span class="tooltiptext">Ratio of the minor horizontal-plane stress (Sh) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k3"  name="k3"/></td>
+                                                            <td><label class="tooltip">k<sub>h</sub><span class="tooltiptext">Ratio of the minor horizontal-plane stress (Sh) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k3"  name="k3" readonly/></td>
 
                                                         </tr>
 
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

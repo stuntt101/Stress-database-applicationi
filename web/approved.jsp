@@ -1,9 +1,8 @@
 <%-- 
-    Document   : sent_message
-    Created on : 25 Jan 2017, 11:26:12 AM
+    Document   : approved
+    Created on : 25 Jan 2017, 2:33:09 PM
     Author     : LQwabe
 --%>
-
 <%@page import="com.stressmeasurement.entity.Message"%>
 <%@page import="java.util.List"%>
 <%@page import="com.stressmeasurement.service.UserService"%>
@@ -18,35 +17,36 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
-        <title>Sent Message</title>
+        <title>Approved</title>
         <style>
-        .email{ float: left;
+            .email{ float: left;
                     width:500px;
                     -moz-border-radius: 4px; border-radius: 4px;
                     border: 1px solid #000 }
-        </style>
-    </head>
-    <body>
-        <%
-        NotificationService notificationService = new NotificationService();
-        
-           
-            
+            </style>
+        </head>
+        <body>
+            <%
+                NotificationService notificationService = new NotificationService();
 
-           Integer  messageId = Integer.parseInt(request.getParameter("messageId"));
-           Message message = notificationService.getMessageById(messageId);
-           User userTo = message.getRecipientId();
-           request.setAttribute("messageId", messageId);
-            request.setAttribute("userTo", userTo);
-            request.setAttribute("message", message);
-        %>
-        <div id="myModal" class="message_modal">
+                Integer messageId = Integer.parseInt(request.getParameter("messageId"));
+                Message message = notificationService.getMessageById(messageId);
+
+                int flagRRead = 1;
+                message.setFlagRRead(flagRRead);
+                notificationService.updateMessage(message);
+                User userFrom = message.getSenderId();
+                request.setAttribute("messageId", messageId);
+                request.setAttribute("userFrom", userFrom);
+                request.setAttribute("message", message);
+            %>
+            <div id="myModal" class="message_modal">
 
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
                     <span class="close">×</span>
-                    <p><center>Sent Message</center></p>
+                    <p><center>Message</center></p>
                 </div>
                 <center>
                     <div class="modal-body">
@@ -56,7 +56,7 @@
                                 <tbody>
 
                                     <tr>                            
-                                        <td><label >To:</label></td><td><input type="text" class="email" id="recipient"  name="recipient" value="${userTo.emailAddress}"/> </td>
+                                        <td><label >From:</label></td><td><input type="text" class="email" id="recipient"  name="recipient" value="${userFrom.firstname}"/> </td>
                                     </tr>
                                     <tr>                            
                                         <td><label >Subject:</label></td><td><input type="text" class="email" id="subject"  name="subject" value="${message.subject}"/> </td>
@@ -88,12 +88,12 @@
 
 // When the user clicks on <span> (x), close the modal
             span.onclick = function () {
-               
-                location = '/nre-stress-measurement/ad_sent.jsp';
+
+                location = 'us_notifications.jsp';
             }
 
 // When the user clicks anywhere outside of the modal, close it
-           
+
         </script>
 
     </body>

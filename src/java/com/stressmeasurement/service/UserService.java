@@ -89,6 +89,31 @@ public class UserService {
         }
         return user;
     }
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public User getUserByEmailAddress(String emailAddress) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        User user = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from User where emailAddress='"+emailAddress+"'");
+            user = (User)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return user;
+    }
      public void deleteUser(String username) {
 	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -125,6 +150,25 @@ public class UserService {
             session.close();
         }
 
+    }
+        public List<User> getAllUsers() {
+        List<User> list = new ArrayList<User>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            list = session.createQuery("from User").list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
     }
 
 

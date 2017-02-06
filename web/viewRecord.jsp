@@ -1,8 +1,11 @@
 <%-- 
-    Document   : verify
-    Created on : Jan 7, 2017, 9:44:42 PM
-    Author     : Lungelo
+    Document   : viewRecord
+    Created on : 31 Jan 2017, 1:46:09 PM
+    Author     : LQwabe
 --%>
+
+
+<%@page import="com.stressmeasurement.service.UserService"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="com.stressmeasurement.service.StressMeasurementService"%>
@@ -111,12 +114,11 @@
                     });
                 });
             });</script> 
-        <title>Verify New Record</title>
+        <title>New Record</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
         <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
-
-        <style>
+    <style>
          label{
                 color: #555555;
                 font-weight: bold;
@@ -236,61 +238,66 @@
 
     </head>
     <body>
-        <%StressMeasurementService stressMeasurementService = new StressMeasurementService();
+        <%
+            
+            StressMeasurementService stressMeasurementService = new StressMeasurementService();
+            UserService userService = new UserService();
             List<String> list = stressMeasurementService.getAllCountries();
             List<StressMeasurement> StressMeasurements = stressMeasurementService.getAllStressMeasurements();
             int new_record_Id = StressMeasurements.size() + 1;
             int new_record_Index = stressMeasurementService.getMaxIndexOfRecord() + 1;
+            Integer smId = Integer.parseInt(request.getParameter("smId"));
+            String username = request.getParameter("username");
+            StressMeasurement stressMeasurement = stressMeasurementService.getStressMeasurementById(smId);
+            User user = userService.getUserByUsername(username);
+            
+            String firstname = user.getFirstname();
+            String lastname = user.getLastname();
+
+            request.setAttribute("firstname", firstname);
+            request.setAttribute("lastname", lastname);
+            request.setAttribute("stressMeasurement", stressMeasurement);
             request.setAttribute("countries", list);
             request.setAttribute("new_record_Id", new_record_Id);
             request.setAttribute("new_record_Index", new_record_Index);
 
-            //User user = (User) session.getAttribute("user");
-            //String firstname = user.getFirstname();
-            // String lastname = user.getLastname();
-            //request.setAttribute("firstname", firstname);
-            //request.setAttribute("lastname", lastname);
-            //request.setAttribute("user", user);
+            request.setAttribute("user", user);
+
+      
+
 
         %>
-         <c:if test="${not empty sent}">
-            <script type="text/javascript" >
-
-                alert('New message sucessfully sent');
-                location = 'ad_notifications.jsp';
-            </script>
-        </c:if>
-        <!-- Header -->
+             
+ <!-- Header -->
         <div id="header">
             <div class="shell">
                 <!-- Logo + Top Nav -->
                 <div id="top">
                     <h1 id="logo" >Stress Measurements Record</h1>
-                    <div id="top-navigation">  <a href="#"><strong>Administrator</strong></a> <span>|</span><a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>    </div>
+                    <div id="top-navigation"> <a href="#"><strong>${firstname} ${lastname}</strong></a> <span><b>|</b></span> <a href="#">Help</a> <span><b>|</b></span> <a href="#">Profile Settings</a> <span><b>|</b></span> <a href="logout.jsp">Log out</a> </div>
+                </div>
+                <!-- End Logo + Top Nav -->
+                <!-- Main Nav -->
+                <div id="navigation">
+                    <ul>
+                        <li><a href="measurementList_us.jsp" ><span>Home</span></a></li>
+                        <li><a href="us_notifications.jsp" class="active"><span>Notifications</span></a></li>
+                        <li><a href="#"><span>Publications</span></a></li>
+                        <li><a href="#"><span>Conferences</span></a></li>
+                        <li><a href="#"><span>FAQs</span></a></li>
+                    </ul>
+                </div>
+                <!-- End Main Nav -->
             </div>
-            <!-- End Logo + Top Nav -->
-            <!-- Main Nav -->
-            <div id="navigation">
-                <ul>
-                    <li><a href="measurementList_ad.jsp" class="active"><span>Home</span></a></li>
-                    <li><a href="ad_notifications.jsp"><span>Notifications</span></a></li>
-                    <li><a href="#"><span>Publications</span></a></li>
-                    <li><a href="#"><span>Conferences</span></a></li>
-                    <li><a href="#"><span>FAQs</span></a></li>
-
-                </ul>
-            </div>
-            <!-- End Main Nav -->
         </div>
-        <hr style="height:3px;border:none;color:#004a8d;background-color:#004a8d; " />
-
+                <hr style="height:3px;border:none;color:#004a8d;background-color:#004a8d; " />
         <!-- End Header -->
         <!-- Container -->
 
         <div id="container">
             <div class="shell">
                 <!-- Small Nav -->
-                <div class="small-nav"> <a href="measurementList_ad.jsp">Home</a> <span>&gt;</span> Verify New Record</div>
+                <div class="small-nav"> <a href="measurementList_us.jsp">Home</a> <span>&gt;</span> View Record</div>
                 <!-- End Small Nav -->
             </div>
             <!-- Content -->
@@ -301,17 +308,17 @@
                     <div class="box">
                         <!-- Box Head -->
                         <div class="box-head">
-                            <h2 class="left"><strong>Verify New Record #${stressMeasurement.smId}</strong></h2>
+                            <h2 class="left"><strong>Resend Record #${stressMeasurement.smId}</strong></h2>
 
                         </div>
                         <!-- End Box Head-->
                         <div class="box-content"> 
                             <div class="cl">&nbsp;</div>
 
-                            <form action="StressMeasurementController"  method="POST" autocomplete="on">
-                                <input type="hidden" id="smId" name="smId" value="${stressMeasurement.smId}"/>
-                                 <input type="hidden" id="username" name="username" value="${user.username}"/>
-                               
+                           <form action="StressMeasurementController"  method="POST" autocomplete="on">
+                                    <input type="hidden" id="smId" name="smId" value="${stressMeasurement.smId}"/>
+                                    <input type="hidden" id="username" name="username" value="${user.username}"/>
+                                
                                 <fieldset class="dashed_fieldset">
                                     <br />
                                     <div style="display:block; width:100%">
@@ -323,14 +330,24 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td ><label class="tooltip">Country<span class="tooltiptext">Country within which the measurement was done</span></label></td><td><select  id="country" name="country"onchange="showTd(this)">
-
-                                                                        <option value="<c:out value="${stressMeasurement.country}"/>"><c:out value="${stressMeasurement.country}"/></option>
+                                                                            <option value="<c:out value="${stressMeasurement.country}"/>"><c:out value="${stressMeasurement.country}"/></option>
+                                                                        <c:forEach items="${countries}" var="list">
+                                                                            <option value="<c:out value="${list}"/>"><c:out value="${list}"/></option>
+                                                                        </c:forEach>
                                                                     </select>  </td>
                                                             </tr>
-                                                            <tr >
+                                                            <tr id="hide_province" style="display: none;">
                                                                 <td><label class="tooltip">Province <span class="tooltiptext">Province within which the measurement was done</span></label></td><td><select id="province"  name="province">
                                                                         <option value="<c:out value="${stressMeasurement.province}"/>"><c:out value="${stressMeasurement.province}"/></option>
-
+                                                                        <option value="G"/>Gauteng</option>
+                                                                        <option value="KZN"/>KwaZulu-Natal</option>
+                                                                        <option value="WC"/>Western Cape</option>
+                                                                        <option value="EC"/>Eastern Cape</option>
+                                                                        <option value="NC"/>Northern Cape</option>
+                                                                        <option value="FS"/>Free State</option>
+                                                                        <option value="MP"/>Mpumalanga</option>
+                                                                        <option value="NP"/>Limpopo (Northern Province)</option>
+                                                                        <option value="NW"/>North West</option>
                                                                     </select>  </td>
                                                             </tr>
                                                             <tr>                            
@@ -349,13 +366,20 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">Method<span class="tooltiptext">Stress measurement method</span></label></td><td><input type="text" id="method" name="method" value="${stressMeasurement.method}"/></td>
+                                                                <td><label class="tooltip">Method<span class="tooltiptext">Stress measurement method</span></label></td><td><input type="text" id="method" name="method" value="${stressMeasurement.depth}"/></td>
 
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Grade<span class="tooltiptext">Individual measurement grading</span></label></td><td><select id="ig"  name="ig">
-                                                                        <option value="<c:out value="${stressMeasurement.ig}"/>"><c:out value="${stressMeasurement.ig}"/></option>
+                                                                         <option value="<c:out value="${stressMeasurement.ig}"/>"><c:out value="${stressMeasurement.ig}"/></option>
+                                                                        <option value="A"/>A</option>
+                                                                        <option value="B"/>B</option>
+                                                                        <option value="C"/>C</option>
+                                                                        <option value="D"/>D</option>
+                                                                        <option value="E"/>E</option>
+
                                                                     </select>  </td>
+
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Group grade<span class="tooltiptext">Group measurement grading</span></label></td><td><input type="text" id="gg"  name="gg" value="${stressMeasurement.gg}"> </td>
@@ -366,6 +390,7 @@
                                                             <tr>
                                                                 <td><label class="tooltip"></label></td><td><input type="hidden" id="hidden"  name="hidden"/></td>
                                                             </tr>
+
                                                         </tbody>
                                                     </table>
                                                 </center>
@@ -373,7 +398,7 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">Longitude<span class="tooltiptext">Longitude of the stress measurement location </span></label></td><td><input type="text" id="longitude"  name="longitude" value="${stressMeasurement.longitude}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Longitude<span class="tooltiptext">Longitude of the stress measurement location </span></label></td><td><input type="text" id="longitude"  name="latitude" value="${stressMeasurement.latitude}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
 
                                                             </tr>
                                                             <tr>
@@ -383,7 +408,7 @@
                                                                 <td><label class="tooltip">Depth<span class="tooltiptext">Depth below surface at which the measurement was done</span></label></td><td><input type="text" id="depth"  name="depth" value="${stressMeasurement.depth}"></input><span style="margin-left:-35px; color: #bdbdbd;">(m)</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Expected vertical stress<span class="tooltiptext">Expected vertical stress at the measurement horizon (ρgH or estimated from numerical models)</span></label></td><td><input type="text" id="sob"  name="sob" value="${stressMeasurement.sob}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Expected vertical stress<span class="tooltiptext">Expected vertical stress at the measurement horizon (ρgH or estimated from numerical models)</span></label></td><td><input type="text" id="sob"  name="sob" value="${stressMeasurement.depth}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Date<span class="tooltiptext">Date when the stress measurement was done</span></label></td><td><input type="text" id="date"  name="date" value="${stressMeasurement.date}"/></td>
@@ -435,7 +460,7 @@
 
                                                             </tr>
                                                             <tr>                           
-                                                                <td><label></label></td><td><input type="hidden" /></td>
+                                                                <td><label></label></td><td><button  class="button button2"  value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
 
                                                             </tr>
 
@@ -508,7 +533,7 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}"> </input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         <tr>
                                                             <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" value="${stressMeasurement.kz}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
@@ -516,8 +541,10 @@
                                                         </tbody>
                                                     </table>
                                                 </fieldset>
+
                                             </div>
                                         </div> 
+
                                     </center>
                                     <br/>
                                 </fieldset>
@@ -537,7 +564,7 @@
                                                                 <td><label class="tooltip">Rock type<span class="tooltiptext">The rock type in which the measurement was done</span></label></td><td><input type="text" id="rock"  name="rock" value="${stressMeasurement.rock}"/></td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Comments<span class="tooltiptext">Any additional comments</span></label></td><td><textarea type="text" id="notes"  name="notes"/>${stressMeasurement.notes}</textarea></td>
+                                                                <td><label class="tooltip">Comments<span class="tooltiptext">Any additional comments</span></label></td><td><textarea type="text" id="notes"  name="notes"/> ${stressMeasurement.depth}</textarea></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -581,11 +608,7 @@
                                 </fieldset>
                                 <br/>
                                 <center>
-
-                                    <button type="submit"  class="button" name="action" value="verify" ><b>Verify</b></button>
-                                    <button  name="action" class="button" name="action" value="incorrectData" id="myBtn"/><b>Send Back For Corrections</b></button>
-                                    <button  name="action" class="button" value="cancel"/><b>Cancel</b></button>
-
+                                     <button  name="action" class="button" value="us_cancel"/><b>Close</b></button>
                                 </center>
                             </form>
                         </div>
@@ -594,80 +617,6 @@
             </center>
             <!-- End Box -->
         </div>
-        <!-- The Modal -->
-        <div id="myModal" class="modal">
-
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span class="close">×</span>
-                    <p><center>Send Back For Corrections</center></p>
-                </div>
-                <center>
-                    <div class="modal-body">
-
-                        <form action="StressMeasurementController"  method="POST" autocomplete="on">
-                            <input type="hidden"  name="smId" value="${stressMeasurement.smId}"/>
-
-                            <center>
-
-                                <table border="0" cellpadding = "2" cellspacing="7" >
-                                    <tbody>
-
-                                        <tr>                            
-                                            <td><label >To:</label></td><td><input type="text" class="email" id="recipient"  name="recipient" value="${user.emailAddress}"/> </td>
-                                        </tr>
-                                        <tr>                            
-                                            <td><label >Subject:</label></td><td><input type="text" class="email" id="subject"  name="subject"/> </td>
-                                        </tr>
-                                        <tr> 
-                                            <td><label >Message Text:</label></td><td><textarea  class="email" rows="12" cols="80" name="content"></textarea><br/></td>
-                                        </tr>
-                                        <tr>
-                                            <td> </td><td><button  class="button" type="submit"  name="action" value="request_data_corrections" >Send Message</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  class="button" type="reset" >Reset</button>  </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </center>
-
-                            <br>
-
-                        </form>
-                    </div>
-                </center>
-
-            </div>
-        </div>
-        <script>
-            // Get the modal
-            var modal = document.getElementById('myModal');
-
-            // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks the button, open the modal
-            btn.onclick = function (event) {
-                event.preventDefault()
-                modal.style.display = "block";
-            }
-
-
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
         <!-- End Container -->
         <!-- Footer -->
         <div id="footer">

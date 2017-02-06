@@ -168,8 +168,16 @@ public class RegisterStressMeasurements extends HttpServlet {
                 
                 User senderId = user;
                 User recipientId = userService.getUserByUsername("admin");
-                String subject = "Reques To Add New Record";
-                String content = "May you please add this new record ";
+                String subject = "Request To Add New Record Reff:"+sm_id;
+                
+                StringBuilder messageContent = new StringBuilder();
+                messageContent.append("Dear  Admin"  );
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append("May you please add this new record " + "");
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append("Kind regards  " + "");
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append(" " +user.getFirstname()+ ""+user.getLastname());
                 int flagSDeleted = 0;
                 int flagRDeleted = 0;
                 int flagRRead = 0;
@@ -179,7 +187,7 @@ public class RegisterStressMeasurements extends HttpServlet {
                 message.setSenderId(senderId);
                 message.setRecipientId(recipientId);
                 message.setSubject(subject);
-                message.setContent(content);
+                message.setContent(messageContent.toString());
                 message.setFlagRDeleted(flagRDeleted);
                 message.setFlagSDeleted(flagSDeleted);
                 message.setFlagRRead(flagRRead);

@@ -1,9 +1,8 @@
 <%-- 
-    Document   : ad_notifications
-    Created on : 23 Jan 2017, 1:11:58 PM
+    Document   : ad_sent
+    Created on : 25 Jan 2017, 10:09:13 AM
     Author     : LQwabe
 --%>
-
 <%@page import="com.stressmeasurement.entity.Message"%>
 <%@page import="java.util.List"%>
 <%@page import="com.stressmeasurement.service.UserService"%>
@@ -16,7 +15,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Notification</title>
+        <title>Sent Notification</title>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
     </head>
@@ -42,34 +41,14 @@
             int noOfUnReadMessages = newMessages.size();
             int noOfSentMessages = sentMessages.size();
 
-            request.setAttribute("newMessages", newMessages);
-            request.setAttribute("oldMessages", oldMessages);
-            request.setAttribute("noOfUnReadMessages", noOfUnReadMessages);
+            request.setAttribute("sentMessages", sentMessages);
             request.setAttribute("noOfUnReadMessages", noOfUnReadMessages);
             request.setAttribute("noOfSentMessages", noOfSentMessages);
             
-
-               if (session.getAttribute("admin")!= null) {
-                User user = (User) session.getAttribute("admin");
-                String firstname = user.getFirstname();
-                String lastname = user.getLastname();
-                request.setAttribute("firstname", firstname);
-                request.setAttribute("lastname", lastname);
-                request.setAttribute("user", user);
-            } else {
-
-                request.setAttribute("session_expired", "session_expired");
-            }
+           
 
 
         %>
-        <c:if test="${not empty session_expired}">
-            <script type="text/javascript" >
-
-                alert('Your session has expired. please login again.');
-                location = 'measurementList.jsp';
-            </script>
-        </c:if>
 
         <c:if test="${not empty sent}">
             <script type="text/javascript" >
@@ -78,24 +57,18 @@
                 location = 'ad_notifications.jsp';
             </script>
         </c:if>
-         <c:if test="${not empty messsage_deleted}">
+        
+        <c:if test="${not empty messsage_deleted}">
             <script type="text/javascript" >
 
                 alert('Message successfully deleted');
                 location = 'ad_notifications.jsp';
             </script>
         </c:if>
-         <c:if test="${not empty verified}">
+        <c:if test="${not empty verified}">
             <script type="text/javascript" >
 
                 alert('New stress Measurement record successfully verified');
-                location = 'ad_notifications.jsp';
-            </script>
-        </c:if>
-        <c:if test="${not empty already_verified}">
-            <script type="text/javascript" >
-
-                alert('Record already verified ');
                 location = 'ad_notifications.jsp';
             </script>
         </c:if>
@@ -129,7 +102,7 @@
         <div id="container">
             <div class="shell">
                 <!-- Small Nav -->
-                <div class="small-nav"> <a href="ad_notifications.jsp">Notifications</a> <span>&gt;</span>Notifications list</div>
+                <div class="small-nav"> <a href="ad_notifications.jsp">Notifications</a> <span>&gt;</span>Sent Notifications list</div>
                 <!-- End Small Nav -->
 
 
@@ -143,43 +116,38 @@
                         <div class="box">
                             <!-- Box Head -->
                             <div class="box-head">
-                                <h2 ><center>Notifications</center></h2>
+                                <h2 ><center>Sent Notifications</center></h2>
 
                             </div>
                             <!-- End Box Head -->
                             <!-- Table -->
+
                             <div class="table" >
                                 <table width="100%" class="divHeight" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
                                         
-                                        <th>From</th>
+                                        <th>To</th>
                                         <th>Subject</th>
                                         <th>Date</th>
                                         <th width="110" class="ac">Content Control</th>
                                     </tr>
-                                    <c:forEach items="${newMessages}" var="list">
+                                    <c:forEach items="${sentMessages}" var="list">
                                         <fmt:formatDate value='${list.sentDate}' pattern='yyyy-MM-dd HH:mm' var="date" />
                                         <tr>
                                             
-                                            <td class="unreadMessage"><a  href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>"class="unreadMessage" href="#"><c:out value="${list.senderId.getFirstname()} ${list.senderId.getLastname()}" /></a></td>
-                                            <td class="unreadMessage"><h3><a  href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>"class="unreadMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
-                                            <td class="unreadMessage"><c:out value="${date}" /></td>
-                                            <td class="unreadMessage"><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico edit">View</a></td>
-                                            </tr>
+                                            <td><a href="#"><c:out value="${list.recipientId.getFirstname()} ${list.recipientId.getLastname()}" /></a></td>
+                                            <td><h3><a href="#"><c:out value="${list.subject}" />.</a></h3></td>
+                                            <td><c:out value="${date}"/></td>
+                                            <td><a></a><a  href="sent_message.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
+                                        </tr>
                                     </c:forEach>
-                                     <c:forEach items="${oldMessages}" var="list">
-                                        <fmt:formatDate value='${list.sentDate}' pattern='yyyy-MM-dd HH:mm' var="date" />
-                                        <tr>
-                                            
-                                            <td class="readMessage"><a   href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>"class="readMessage" href="#"><c:out value="${list.senderId.getFirstname()} ${list.senderId.getLastname()}" /></a></td>
-                                            <td class="readMessage"><h3><a  href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="readMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
-                                            <td class="readMessage"><c:out value="${date}" /></td>
-                                            <td class="readMessage"><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a href="StressMeasurementController?action=view_and_verify&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico edit">View</a></td>
-                                            </tr>
-                                    </c:forEach>
+
+
                                 </table>
-                               
+
                             </div>
+                       
+
                             <!-- Table -->
                         </div>
                         <!-- End Box -->
@@ -213,6 +181,8 @@
                 <!-- Main -->
             </div>
         </div>
+
+
         <!-- End Container -->
         <!-- Footer -->
         <div id="footer">

@@ -109,8 +109,13 @@ table.display thead th div.DataTables_sort_wrapper span {
  */
 
 .dataTables_wrapper {
-	position: relative;
-	clear: both;
+    position: inherit;
+    clear: both;
+    *zoom: 1;
+}
+.DTFC_ScrollWrapper {
+    overflow: hidden;
+    overflow-x: scroll;
 }
 
 .dataTables_processing {

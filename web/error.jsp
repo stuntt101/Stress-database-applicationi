@@ -1,22 +1,19 @@
 <%-- 
-    Document   : logout.jsp
-    Created on : 09 Jan 2017, 1:11:26 PM
+    Document   : error
+    Created on : 31 Jan 2017, 12:45:01 PM
     Author     : LQwabe
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page errorPage="error.jsp" %>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
     <body>
-        <%		
-		 session.removeAttribute("username");
-		 session.removeAttribute("password");
-		 session.invalidate();
-                 response.sendRedirect("/nre-stress-measurement");            
-	 %>
+        <h1>Hello World!</h1>
     </body>
 </html>
