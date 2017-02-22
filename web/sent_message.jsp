@@ -89,7 +89,7 @@
 // When the user clicks on <span> (x), close the modal
             span.onclick = function () {
                
-                location = '/StressMeasurement/ad_sent.jsp';
+                location = 'ad_sent.jsp';
             }
 
 // When the user clicks anywhere outside of the modal, close it

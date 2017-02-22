@@ -54,7 +54,7 @@
             <script type="text/javascript" >
 
                 alert('New message successfully sent');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                location = 'ad_notifications.jsp';
             </script>
         </c:if>
         
@@ -62,14 +62,14 @@
             <script type="text/javascript" >
 
                 alert('Message successfully deleted');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                location = 'ad_notifications.jsp';
             </script>
         </c:if>
         <c:if test="${not empty verified}">
             <script type="text/javascript" >
 
                 alert('New stress Measurement record successfully verified');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                location = 'ad_notifications.jsp';
             </script>
         </c:if>
 
@@ -78,8 +78,9 @@
             <div class="shell">
                 <!-- Logo + Top Nav -->
                 <div id="top">
-                    <h1 id="logo" >Stress Measurements Record</h1>
-                    <div id="top-navigation"> <a href="#"><strong>Administrator</strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="#">Profile Settings</a> <span>|</span> <a href="#">Log out</a> </div>
+                    <h1 id="logo" style="font-family: sans-serif; font-weight:bold ">Stress Measurements Record</h1>
+
+                    <div id="top-navigation"> <a href="#"><strong>Administrator</strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>
                 </div>
                 <!-- End Logo + Top Nav -->
                 <!-- Main Nav -->
@@ -87,6 +88,7 @@
                     <ul>
                         <li><a href="measurementList_ad.jsp" ><span>Home</span></a></li>
                         <li><a href="ad_notifications.jsp" class="active"><span>Notifications</span></a></li>
+                        <li><a href="list_users.jsp"><span>User Management</span></a></li>
                         <li><a href="#"><span>Publications</span></a></li>
                         <li><a href="#"><span>Conferences</span></a></li>
                         <li><a href="#"><span>FAQs</span></a></li>
@@ -95,6 +97,7 @@
                 <!-- End Main Nav -->
             </div>
         </div>
+        <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
         <!-- End Header -->
         <!-- Container -->
         <div id="container">
@@ -123,7 +126,7 @@
                             <div class="table" >
                                 <table width="100%" class="divHeight" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
-                                        <th width="13"></th>
+                                        
                                         <th>To</th>
                                         <th>Subject</th>
                                         <th>Date</th>
@@ -132,7 +135,7 @@
                                     <c:forEach items="${sentMessages}" var="list">
                                         <fmt:formatDate value='${list.sentDate}' pattern='yyyy-MM-dd HH:mm' var="date" />
                                         <tr>
-                                            <td><input type="checkbox" class="checkbox" /></td>
+                                            
                                             <td><a href="#"><c:out value="${list.recipientId.getFirstname()} ${list.recipientId.getLastname()}" /></a></td>
                                             <td><h3><a href="#"><c:out value="${list.subject}" />.</a></h3></td>
                                             <td><c:out value="${date}"/></td>

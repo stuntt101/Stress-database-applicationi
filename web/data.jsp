@@ -13,6 +13,7 @@
    Float lng =null;
     Float lat =null;
     Integer q2=null;
+//     Integer q =1;
     Integer q = Integer.parseInt(request.getParameter("q"));
    //String q = request.getParameter("q");
    StressMeasurementService service = new StressMeasurementService();

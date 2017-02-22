@@ -25,6 +25,11 @@ public class Test2 {
             {-1.88, 26.7, 4.32},
             {-6.70, 4.32, 21.2}}
         );
+      DoubleMatrix matrix33 = new DoubleMatrix(new double[][]{
+            {20.3, 7.17, 2.14},
+            {7.17, 36.27, -1.85},
+            {2.14, -1.85, 20.72}}
+        );
      
      StressMeasurementService serv = new StressMeasurementService();
      int max = serv.getMaxIndexOfRecord();
@@ -53,7 +58,7 @@ public class Test2 {
         n1y = V.get(1, 2);
         n1z = V.get(2, 2);
 
-        List<Integer> BEARINGS_AND_DIPS = new ArrayList<Integer>();// initialize a list to store bearings and dips
+        List<Double> BEARINGS_AND_DIPS = new ArrayList<Double>();// initialize a list to store bearings and dips
         List<Double> EigenvectorList = new ArrayList<Double>();
         EigenvectorList.add(n3x);
         EigenvectorList.add(n3y);
@@ -65,12 +70,18 @@ public class Test2 {
         EigenvectorList.add(n1y);
         EigenvectorList.add(n1z);
 
-        
+         
      StressCalculation compute =new StressCalculation();
+     BEARINGS_AND_DIPS=compute.getPrincipalEigenvalues(matrix33);
      
-     System.out.println("Bearings and Dips" +EigenvectorList);
+     //System.out.println("Bearings and Dips" +EigenvectorList);
+      System.out.println("Bearings and Dips index" +BEARINGS_AND_DIPS.get(0));
      
-      System.out.println("Index " +max);
+      
+      for(Double t:BEARINGS_AND_DIPS){
+      System.out.println(t);
+      
+      }
      
         
         

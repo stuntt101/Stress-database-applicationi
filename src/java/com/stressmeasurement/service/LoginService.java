@@ -31,10 +31,11 @@ public class LoginService {
      * @param password
      * @return
      */
-    public boolean authenticateAdmin(String username, String password) {
-        User admin = service.getUserByUsername(username);
-        int role= admin.getRole();
-        if(admin!=null && admin.getUsername().equals(username) && admin.getPassword().equals(password)&& role==1){
+    public boolean authenticateUser(String username, String password) {
+        User user = service.getUserByUsername(username);
+     
+        
+        if(user!=null && user.getUsername().equals(username) && user.getPassword().equals(password)){
             return true;
         }else{ 
             return false;
@@ -46,10 +47,9 @@ public class LoginService {
      * @param password
      * @return
      */
-    public boolean authenticateNormalUser(String username, String password) {
+    public boolean authenticateNormalUser(String username, String password , int role) {
         User normal_user = service.getUserByUsername(username);
-        int role= normal_user.getRole();
-        if(normal_user!=null && normal_user.getUsername().equals(username) && normal_user.getPassword().equals(password)&& role==0){
+        if(normal_user!=null && normal_user.getUsername().equals(username) && normal_user.getPassword().equals(password)&&normal_user.getRole()==role){
             return true;
         }else{ 
             return false;

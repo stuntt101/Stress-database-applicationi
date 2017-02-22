@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.lang.Math;
 import java.lang.*;
+import java.util.Collections;
 import org.jblas.ComplexDouble;
 import org.jblas.ComplexDoubleMatrix;
 import org.jblas.DoubleMatrix;
@@ -35,6 +36,7 @@ public class StressCalculation {
         for (ComplexDouble eigenvalue : eigenvalues.toArray()) {
             Double value = Double.parseDouble(String.format("%.2f ", eigenvalue.abs()));
             EigenValuesList.add(value);
+            Collections.sort(EigenValuesList);
         }
         //it returns Principal Eigen Values in the  order of [S3, S2, S1]
         return EigenValuesList;
@@ -141,8 +143,8 @@ public class StressCalculation {
         }
         //add bearings to the list.
         BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS3)));
-        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS3)));
-        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS3)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS2)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS1)));
 
         //add dips to the list
         BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", DIPS3)));

@@ -16,7 +16,7 @@
 		 session.removeAttribute("username");
 		 session.removeAttribute("password");
 		 session.invalidate();
-                 response.sendRedirect("/StressMeasurement");            
+                 response.sendRedirect("measurementList.jsp");            
 	 %>
     </body>
 </html>
