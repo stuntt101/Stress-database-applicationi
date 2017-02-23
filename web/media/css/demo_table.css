@@ -53,7 +53,7 @@
 }
 
 .dataTables_length {
-	width: 40%;
+	width: 50%;
 	float: left;
 }
 
@@ -130,10 +130,14 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables display
  */
+
 table.display {
 	margin: 0 auto;
 	clear: both;
 	width: 100%;
+        border-collapse: collapse;
+  table-layout: fixed;      
+  word-wrap:break-word; 
 	
 	/* Note Firefox 3.5 and before have a bug with border-collapse
 	 * ( https://bugzilla.mozilla.org/show%5Fbug.cgi?id=155955 ) 

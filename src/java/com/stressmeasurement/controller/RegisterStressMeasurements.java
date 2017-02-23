@@ -12,6 +12,7 @@ import com.stressmeasurement.service.NotificationService;
 import com.stressmeasurement.service.StressMeasurementService;
 import com.stressmeasurement.service.UserService;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,15 +20,18 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author LQwabe
  */
+@MultipartConfig
 public class RegisterStressMeasurements extends HttpServlet {
 
     /**
@@ -56,23 +60,24 @@ public class RegisterStressMeasurements extends HttpServlet {
             StressMeasurementService stressMeasurementService = new StressMeasurementService();
             StressMeasurement stressMeasurement = new StressMeasurement();
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             HttpSession session = request.getSession(true);
             User user = (User) session.getAttribute("user");
+
             Integer sm_id = Integer.parseInt(request.getParameter("sm_id"));
-            
-            String avg = request.getParameter("avg");
-            String gg = request.getParameter("gg");
-            String ig = request.getParameter("ig");
-            String country = request.getParameter("country");
-            String province = request.getParameter("province");
-            String locality = request.getParameter("locality");
-            String site = request.getParameter("site");
-            String location = request.getParameter("location");
+
+            String avg = request.getParameter("avg") != null ? request.getParameter("avg") : "";
+            String gg = request.getParameter("gg") != null ? request.getParameter("gg") : "";
+            String ig = request.getParameter("ig") != null ? request.getParameter("ig") : "";
+            String country = request.getParameter("country") != null ? request.getParameter("country") : "";
+            String province = request.getParameter("province") != null ? request.getParameter("province") : "";
+            String locality = request.getParameter("locality") != null ? request.getParameter("locality") : "";
+            String site = request.getParameter("site") != null ? request.getParameter("site") : "";
+            String location = request.getParameter("location") != null ? request.getParameter("location") : "";
             float longitude = Float.parseFloat(request.getParameter("longitude"));
             float latitude = Float.parseFloat(request.getParameter("latitude"));
             Date date = format.parse(request.getParameter("date"));
-            String method = request.getParameter("method");
+            String method = request.getParameter("method") != null ? request.getParameter("method") : "";
             float depth = Float.parseFloat(request.getParameter("depth"));
             Integer bs1 = Integer.parseInt(request.getParameter("bs1"));
             Integer bs2 = Integer.parseInt(request.getParameter("bs2"));
@@ -100,14 +105,28 @@ public class RegisterStressMeasurements extends HttpServlet {
             Integer no = Integer.parseInt(request.getParameter("no"));
             float e = Float.parseFloat(request.getParameter("e"));
             float pr = Float.parseFloat(request.getParameter("pr"));
-            String rock = request.getParameter("rock");
-            String seq = request.getParameter("seq");
-            String reff = request.getParameter("reff");
-            String notes = request.getParameter("notes");
-            String bhb = request.getParameter("bhb");
-            String bhd = request.getParameter("bhd");
+            String rock = request.getParameter("rock") != null ? request.getParameter("rock") : "";
+            String seq = request.getParameter("seq") != null ? request.getParameter("seq") : "";
+            String reff = request.getParameter("reff") != null ? request.getParameter("reff") : "";
+            String notes = request.getParameter("notes") != null ? request.getParameter("notes") : "";
+            String bhb = request.getParameter("bhb") != null ? request.getParameter("bhb") : "";
+            String bhd = request.getParameter("bhd") != null ? request.getParameter("bhd") : "";
+
             String verified = "No";
-            
+            Part filePart = request.getPart("file_uploaded") != null ? request.getPart("file_uploaded") : null;
+            InputStream pdfFileBytes = null;
+            pdfFileBytes = filePart.getInputStream();
+
+            byte[] bytes = null;
+            String fileType = "";
+            if (filePart != null&&filePart.getSize()!=0) {
+
+                bytes = new byte[pdfFileBytes.available()];
+                pdfFileBytes.read(bytes);
+                fileType = filePart.getContentType();
+
+            }
+
             stressMeasurement.setAvg(avg);
             stressMeasurement.setIg(ig);
             stressMeasurement.setGg(gg);
@@ -150,57 +169,64 @@ public class RegisterStressMeasurements extends HttpServlet {
             stressMeasurement.setRock(rock);
             stressMeasurement.setSeq(seq);
             stressMeasurement.setReff(reff);
+            stressMeasurement.setFileUploaded(bytes);
+            stressMeasurement.setFileUploadedType(fileType);
             stressMeasurement.setNotes(notes);
             stressMeasurement.setBhb(bhb);
             stressMeasurement.setBhd(bhd);
             stressMeasurement.setAddedBy(user);
-            
             stressMeasurement.setVerified(verified);
-            
             boolean result = stressMeasurementService.addStressMeasurement(stressMeasurement);
-            
+
             if (result) {
-                
-                
+
                 UserService userService = new UserService();
                 NotificationService notificationService = new NotificationService();
                 Message message = new Message();
-                
+
                 User senderId = user;
                 User recipientId = userService.getUserByUsername("admin");
-                String subject = "Reques To Add New Record";
-                String content = "May you please add this new record ";
+                String subject = "Request To Add New Record Reff:" + sm_id;
+
+                StringBuilder messageContent = new StringBuilder();
+                messageContent.append("Dear  Admin");
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append("May you please add this new record " + "");
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append("Kind regards  " + "");
+                messageContent.append(System.getProperty("line.separator"));
+                messageContent.append(" " + user.getFirstname() + "\t" + user.getLastname());
                 int flagSDeleted = 0;
                 int flagRDeleted = 0;
                 int flagRRead = 0;
                 Date sentDate = new Date();
                 StressMeasurement dataReffId = stressMeasurementService.getStressMeasurementById(sm_id);
-                
+
                 message.setSenderId(senderId);
                 message.setRecipientId(recipientId);
                 message.setSubject(subject);
-                message.setContent(content);
+                message.setContent(messageContent.toString());
                 message.setFlagRDeleted(flagRDeleted);
                 message.setFlagSDeleted(flagSDeleted);
                 message.setFlagRRead(flagRRead);
                 message.setDataReffId(dataReffId);
                 message.setSentDate(sentDate);
                 notificationService.addMessage(message);
-                
+
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('New stress Measurement record sucessfully added');");
                 out.println("location='measurementList_us.jsp';");
                 out.println("</script>");
-                
+
             } else {
-                
+
                 out.println("<script type=\"text/javascript\">");
                 out.println("alert('Stress Measurement record already exist');");
                 out.println("location='newEntry.jsp';");
                 out.println("</script>");
-                
+
             }
-            
+
         }
     }
 

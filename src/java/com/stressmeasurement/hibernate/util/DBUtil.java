@@ -22,7 +22,7 @@ public class DBUtil {
         try {
 
             Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mine_management",
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/central_stress_measurements",
                     "root", "13579");
 
         } catch (Exception e) {

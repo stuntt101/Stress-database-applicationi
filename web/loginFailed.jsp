@@ -18,7 +18,7 @@
 
 <style>
         label {
-            color: #B4886B;
+            color: #555555;
             font-weight: bold;
             font-size:13px;
             font:  HelveticaNeue, Verdana, Arial,bold, Helvetica, sans-serif;
@@ -29,7 +29,7 @@
         input, textarea, select { float: left;
                                   width:150px;
                                   -moz-border-radius: 4px; border-radius: 4px;
-                                  border: 1px solid #BB221E }
+                                  border: 1px solid #555555 }
         </style>
 
 </head>
@@ -39,14 +39,15 @@
   <div class="shell">
     <!-- Logo + Top Nav -->
     <div id="top">
-      <h1 id="logo" >Stress Measurements Record</h1>
+      <h1 id="logo" style="font-family: sans-serif; font-weight:bold ">Stress Measurements Record</h1>
+
       <div id="top-navigation">  <span></span> <a href="#">Help</a> </div>
     </div>
     <!-- End Logo + Top Nav -->
     <!-- Main Nav -->
     <div id="navigation">
       <ul>
-        <li><a href="/StressMeasurement" class="active"><span>Home</span></a></li>
+        <li><a href="measurementList.jsp" class="active"><span>Home</span></a></li>
         <li><a href="#"><span>Publications</span></a></li>
         <li><a href="#"><span>Conferences</span></a></li>
         <li><a href="#"><span>FAQs</span></a></li>
@@ -57,6 +58,7 @@
     <!-- End Main Nav -->
   </div>
 </div>
+<hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
 <!-- End Header -->
 <!-- Container -->
 
@@ -64,7 +66,7 @@
 <div id="container">
   <div class="shell">
     <!-- Small Nav -->
-    <div class="small-nav"> <a href="/StressMeasurement">Home</a> <span>&gt;</span> Login failed </div>
+    <div class="small-nav"> <a href="measurementList.jsp">Home</a> <span>&gt;</span> Login failed </div>
     <!-- End Small Nav -->
      </div>
     <br />
@@ -88,8 +90,8 @@
       <!-- Content -->
       <center>
       <div id="login" style="width: 450px;height: 200px">
-          <div class="msg msg-error" style="width: 450px;">
-      <p><strong>Login failed! Invalid Username and/or Password. Please Try again.</strong></p>
+          <div class=" msg msg-error" style="width: 450px ;">
+              <p> <img src="images/favicon-32x32.png" alt="alt text" style="float: left"></img><strong>Login failed! Invalid Username and/or Password. Please Try again.</strong></p>
        </div>
     
           <!-- Box -->
@@ -107,14 +109,14 @@
             <table cellpadding = "3" cellspacing="12">
               <tr>
 
-                  <td>  <label><Strong><b>Username:</b></Strong></label></td> <td> <input type="text"  name="username"size="45"></td>
+                  <td>  <label><Strong><b>Username:</b></Strong></label></td> <td> <input type="text"  name="username"size="45" required="required" /></td>
                     </tr>
                     <tr>
-                        <td> <label><Strong>Password:</Strong></label></td> <td> <input type="password" name="password"size="45"></td>
+                        <td> <label><Strong>Password:</Strong></label></td> <td> <input type="password" name="password"size="45" required="required"/></td>
                     </tr>
                     <tr>
                         <td></td> <td><button class="button"type="submit" value="Login" >Login</button>
-                            <button  class="button" type="reset" value="Reset" >Reset</button></td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  class="button" type="reset" value="Reset" >Reset</button></td>
                     </tr>
                   </table>
                 </form>

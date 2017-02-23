@@ -39,13 +39,20 @@ public class Test {
         );
 
         StressCalculation compute = new StressCalculation();
+        StressMeasurementService tressMeasurementService = new StressMeasurementService();
+        int x=tressMeasurementService.getMaxIndexOfRecord();
+//        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixC));
 
-        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixC));
-        
-        for(int i=0;i<compute.getPrincipalEigenvalues(matrixB).size();i++){
-        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(i));
-        
-        }
+
+          Integer smId = 1;
+          StressMeasurementService service = new StressMeasurementService();
+           StressMeasurement stressMeasurement = service.getStressMeasurementById(smId);
+           byte[] pdf= stressMeasurement.getFileUploaded();
+         System.out.println("pdf size=" + pdf.length);
+//        for(int i=0;i<compute.getPrincipalEigenvalues(matrixB).size();i++){
+//        System.out.println("x=" + x);
+//        
+//        }
 //        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(2));
 //         System.out.println("S2=" + compute.getPrincipalEigenvalues(matrixB).get(1));
 //          System.out.println("S3=" + compute.getPrincipalEigenvalues(matrixB).get(0));

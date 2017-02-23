@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -83,7 +84,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StressMeasurement.findByReff", query = "SELECT s FROM StressMeasurement s WHERE s.reff = :reff"),
     @NamedQuery(name = "StressMeasurement.findByNotes", query = "SELECT s FROM StressMeasurement s WHERE s.notes = :notes"),
     @NamedQuery(name = "StressMeasurement.findByAvgb", query = "SELECT s FROM StressMeasurement s WHERE s.avgb = :avgb"),
-    @NamedQuery(name = "StressMeasurement.findByVerified", query = "SELECT s FROM StressMeasurement s WHERE s.verified = :verified")})
+    @NamedQuery(name = "StressMeasurement.findByVerified", query = "SELECT s FROM StressMeasurement s WHERE s.verified = :verified"),
+    @NamedQuery(name = "StressMeasurement.findByFileUploadedType", query = "SELECT s FROM StressMeasurement s WHERE s.fileUploadedType = :fileUploadedType")})
 public class StressMeasurement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -204,6 +206,12 @@ public class StressMeasurement implements Serializable {
     @Size(max = 4)
     @Column(name = "VERIFIED")
     private String verified;
+    @Lob
+    @Column(name = "FILE_UPLOADED")
+    private byte[] fileUploaded;
+    @Size(max = 900)
+    @Column(name = "FILE_UPLOADED_TYPE")
+    private String fileUploadedType;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "dataReffId")
     private List<Message> messageList;
     @JoinColumn(name = "ADDED_BY", referencedColumnName = "username")
@@ -599,6 +607,22 @@ public class StressMeasurement implements Serializable {
 
     public void setVerified(String verified) {
         this.verified = verified;
+    }
+
+    public byte[] getFileUploaded() {
+        return fileUploaded;
+    }
+
+    public void setFileUploaded(byte[] fileUploaded) {
+        this.fileUploaded = fileUploaded;
+    }
+
+    public String getFileUploadedType() {
+        return fileUploadedType;
+    }
+
+    public void setFileUploadedType(String fileUploadedType) {
+        this.fileUploadedType = fileUploadedType;
     }
 
     @XmlTransient

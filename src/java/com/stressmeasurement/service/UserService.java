@@ -151,6 +151,25 @@ public class UserService {
         }
 
     }
+        public List<User> getAllUsers() {
+        List<User> list = new ArrayList<User>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            list = session.createQuery("from User").list();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return list;
+    }
 
 
 }

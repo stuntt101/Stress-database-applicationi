@@ -1,5 +1,5 @@
 <%-- 
-    Document   : ad_notifications
+    Document   : us_notifications
     Created on : 23 Jan 2017, 1:11:58 PM
     Author     : LQwabe
 --%>
@@ -28,16 +28,18 @@
             User user = (User) session.getAttribute("user");
             String firstname = user.getFirstname();
             String lastname = user.getLastname();
+            String username = user.getUsername();
 
             request.setAttribute("listStressMeasurements", stressMeasurementService.getAllStressMeasurements());
             request.setAttribute("firstname", firstname);
             request.setAttribute("lastname", lastname);
             request.setAttribute("user", user);
+             request.setAttribute("username", username);
 
             NotificationService notificationService = new NotificationService();
             UserService userServise = new UserService();
             User recipient = user;
-            User sender = userServise.getUserByUsername("admin");
+            User sender = user;
             int flagRDeleted = 0;
             int flagSDeleted = 0;
             int unReadMessages = 0;
@@ -83,40 +85,40 @@
             request.setAttribute("oldApproved", oldApproved);
             request.setAttribute("oldMessages", oldMessages);
             request.setAttribute("noOfUnReadMessages", noOfUnReadMessages);
-            request.setAttribute("noOfUnReadMessages", noOfUnReadMessages);
+//            request.setAttribute("noOfUnReadMessages", noOfUnReadMessages);
             request.setAttribute("noOfSentMessages", noOfSentMessages);
 
         %>
-
-        <c:if test="${not empty sent}">
+        
+        <c:if test="${not empty updated}">
             <script type="text/javascript" >
 
-                alert('New message successfully sent');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                alert('The record  successfully updated');
+                location = 'us_notifications.jsp';
             </script>
         </c:if>
-        <c:if test="${not empty messsage_deleted}">
+         <c:if test="${not empty isVerified}">
+            <script type="text/javascript" >
+
+                alert('This record is now verified');
+                location = 'us_notifications.jsp';
+            </script>
+        </c:if>
+        <c:if test="${not empty us_messsage_deleted}">
             <script type="text/javascript" >
 
                 alert('Message successfully deleted');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                ocation = 'us_notifications.jsp';
             </script>
         </c:if>
-        <c:if test="${not empty verified}">
-            <script type="text/javascript" >
-
-                alert('New stress Measurement record successfully verified');
-                location = '/StressMeasurement/ad_notifications.jsp';
-            </script>
-        </c:if>
-
         <!-- Header -->
         <div id="header">
             <div class="shell">
                 <!-- Logo + Top Nav -->
                 <div id="top">
-                    <h1 id="logo" >Stress Measurements Record</h1>
-                    <div id="top-navigation"> <a href="#"><strong>${firstname} ${lastname}</strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>
+                    <h1 id="logo" style="font-family: sans-serif; font-weight:bold ">Stress Measurements Record</h1>
+
+                    <div id="top-navigation"> <a href="#"><strong>${firstname} ${lastname}</strong></a> <span><b>|</b></span> <a href="#">Help</a> <span><b>|</b></span> <a href="#">Profile Settings</a> <span><b>|</b></span> <a href="logout.jsp">Log out</a> </div>
                 </div>
                 <!-- End Logo + Top Nav -->
                 <!-- Main Nav -->
@@ -132,6 +134,8 @@
                 <!-- End Main Nav -->
             </div>
         </div>
+     <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
+
         <!-- End Header -->
         <!-- Container -->
         <div id="container">
@@ -155,7 +159,7 @@
                             <!-- End Box Head -->
                             <!-- Table -->
                             <div class="table" >
-                                <table width="100%" class="divHeight" border="0" cellspacing="0" cellpadding="0">
+                                <table  width="100%" class="divHeight" border="0" cellspacing="0" cellpadding="0">
                                     <tr>
 
                                         <th>From</th>
@@ -163,24 +167,25 @@
                                         <th>Date</th>
                                         <th width="110" class="ac">Content Control</th>
                                     </tr>
+                                    <tbody style="height: 50px;overflow-y: auto;overflow-x: hidden;">
                                     <c:forEach items="${newMessages}" var="list">
                                         <fmt:formatDate value='${list.sentDate}' pattern='yyyy-MM-dd HH:mm' var="date" />
                                         <tr>
 
-                                            <td><a href="#"><c:out value="${list.senderId.getFirstname()}" /></a></td>
-                                            <td><h3><a href="#"><c:out value="${list.subject}" />.</a></h3></td>
-                                            <td><c:out value="${date}" /></td>
-                                            <td><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="unverified.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
+                                            <td><a class="unreadMessage" href="#"><c:out value="${list.senderId.getFirstname()}" /></a></td>
+                                            <td><h3><a class="unreadMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
+                                            <td class="unreadMessage"><c:out value="${date}" /></td>
+                                            <td><a href="StressMeasurementController?action=us_deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="unverified.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
                                             </tr>
                                     </c:forEach>
                                     <c:forEach items="${newApproved}" var="list">
                                         <fmt:formatDate value='${list.sentDate}' pattern='yyyy-MM-dd HH:mm' var="date" />
                                         <tr>
 
-                                            <td><a href="#"><c:out value="${list.senderId.getFirstname()}" /></a></td>
-                                            <td><h3><a href="#"><c:out value="${list.subject}" />.</a></h3></td>
-                                            <td><c:out value="${date}" /></td>
-                                            <td><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="approved.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
+                                            <td><a class="unreadMessage" href="#"><c:out value="${list.senderId.getFirstname()}" /></a></td>
+                                            <td><h3><a class="unreadMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
+                                            <td class="unreadMessage"><c:out value="${date}" /></td>
+                                            <td><a  class="unreadMessage"href="StressMeasurementController?action=us_deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="approved.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
                                             </tr>
                                     </c:forEach>
                                     <c:forEach items="${oldMessages}" var="list">
@@ -190,7 +195,7 @@
                                             <td><a class="readMessage" href="#"><c:out value="${list.senderId.getFirstname()} " /></a></td>
                                             <td><h3><a class="readMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
                                             <td class="readMessage"><c:out value="${date}" /></td>
-                                            <td><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="unverified.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
+                                            <td><a href="StressMeasurementController?action=us_deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="unverified.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
                                             </tr>
                                     </c:forEach>
                                     <c:forEach items="${oldApproved}" var="list">
@@ -200,22 +205,21 @@
                                             <td><a class="readMessage" href="#"><c:out value="${list.senderId.getFirstname()}" /></a></td>
                                             <td><h3><a class="readMessage" href="#"><c:out value="${list.subject}" />.</a></h3></td>
                                             <td class="readMessage"><c:out value="${date}" /></td>
-                                            <td><a href="StressMeasurementController?action=deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="approved.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
+                                            <td><a href="StressMeasurementController?action=us_deleteMessage&smId=<c:out value="${list.dataReffId.getSmId()}"/>&senderId=<c:out value="${list.senderId.getUsername()}"></c:out>&messageId=<c:out value="${list.messageId}"></c:out>" class="ico del" onclick="return confirm('Are you sure that you want to delete this message?');">Delete</a><a  href="approved.jsp?messageId=${list.messageId}"id="myBtn"  class="ico edit">View</a></td>
                                             </tr>
                                     </c:forEach>
-
+                                  </tbody>
                                 </table>
                                 <!-- Pagging -->
-                                <div class="pagging">
+<!--                                <div class="pagging">
                                     <div class="left">Showing 1-12 of 44</div>
                                     <div class="right"> <a href="#">Previous</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">245</a> <span>...</span> <a href="#">Next</a> <a href="#">View all</a> </div>
-                                </div>
+                                </div>-->
                                 <!-- End Pagging -->
                             </div>
                             <!-- Table -->
                         </div>
                         <!-- End Box -->
-
                     </div>
                     <!-- End Content -->
                     <!-- Sidebar -->
@@ -231,7 +235,7 @@
                                 <div class="cl">&nbsp;</div>
 
                                 <p><a href="us_notifications.jsp">New messages(${noOfUnReadMessages})</a></p>
-                                <p><a href="us_sent.jsp">Sent messages(${noOfSentMessages})</a></p>
+                                <p><a href="us_sent.jsp?username=<c:out value="${username}" />">Sent messages(${noOfSentMessages})</a></p>
                                 <!-- Sort -->
 
                                 <!-- End Sort -->

@@ -71,7 +71,7 @@
                 $('#Calculate').click(function (event) { 
                     event.preventDefault();
                     $.ajax({
-                        url: '/StressMeasurement/CalculateStress',
+                        url: 'CalculateStress',
                         type: 'post',
                         dataType: 'json',
                         data: {
@@ -104,7 +104,7 @@
                         },
                         error: function (responseText) {
 
-                            alert("Something went wrong " + "Please try again");
+                              alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero "+"Then try again ");
                             // Somehow process the validation messages,
                             // like you seem to be doing already.
                         }
@@ -117,8 +117,8 @@
         <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
 
         <style>
-            label{
-                color: #B4886B;
+         label{
+                color: #555555;
                 font-weight: bold;
                 font-size:12px;
                 font:  HelveticaNeue, Verdana, Arial,bold, Helvetica, sans-serif;
@@ -156,12 +156,7 @@
             input, textarea, select{ float: left;
                                      width:150px;
                                      -moz-border-radius: 4px; border-radius: 4px;
-                                     border: 1px solid #BB221E }
-
-            .email{ float: left;
-                    width:250px;
-                    -moz-border-radius: 4px; border-radius: 4px;
-                    border: 1px solid #000 }
+                                     border: 1px solid #555555 }
             .button2 { float: left;
                        width:150px;
                        -moz-border-radius: 4px; border-radius: 4px;
@@ -169,6 +164,10 @@
             .floatedTable {
                 float:left;
             }
+            textarea {
+            overflow-y: scroll; /* Vertical scrollbar */
+               overflow: scroll; /* Horizontal and vertical scrollbar*/
+}
             .inlineTable {
                 display: inline-block;
             }
@@ -176,7 +175,7 @@
 
             .formLegend { 
 
-                background-color: #B4886B;
+                background-color: #2e6e9e;
                 font-weight: bold;
                 font-size:12px;
                 color: white; -webkit-border-radius: 4px; 
@@ -222,7 +221,7 @@
             .tooltip .tooltiptext {
                 visibility: hidden;
                 width: 120px;
-                background-color: #ba4c32;
+                background-color: #2e6e9e;
                 color: #fff;
                 font-weight: bold;
                 text-align: center;
@@ -237,7 +236,11 @@
             .tooltip:hover .tooltiptext {
                 visibility: visible;
             }
-        </style>
+            .email{ float: left;
+                    width:400px;
+                    -moz-border-radius: 4px; border-radius: 4px;
+                    border: 1px solid #000 }
+            </style>
 
     </head>
     <body>
@@ -262,7 +265,7 @@
             <script type="text/javascript" >
 
                 alert('New message sucessfully sent');
-                location = '/StressMeasurement/ad_notifications.jsp';
+                location = 'ad_notifications.jsp';
             </script>
         </c:if>
         <!-- Header -->
@@ -270,7 +273,8 @@
             <div class="shell">
                 <!-- Logo + Top Nav -->
                 <div id="top">
-                    <h1 id="logo" >Stress Measurements Record</h1>
+                    <h1 id="logo" style="font-family: sans-serif; font-weight:bold ">Stress Measurements Record</h1>
+
                     <div id="top-navigation">  <a href="#"><strong>Administrator</strong></a> <span>|</span><a href="#">Profile Settings</a> <span>|</span> <a href="logout.jsp">Log out</a> </div>    </div>
             </div>
             <!-- End Logo + Top Nav -->
@@ -287,6 +291,7 @@
             </div>
             <!-- End Main Nav -->
         </div>
+        <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
 
         <!-- End Header -->
         <!-- Container -->
@@ -305,7 +310,7 @@
                     <div class="box">
                         <!-- Box Head -->
                         <div class="box-head">
-                            <h2 class="left"><strong>Verify New Record #${new_record_Id}</strong></h2>
+                            <h2 class="left"><strong>Verify New Record #${stressMeasurement.smId}</strong></h2>
 
                         </div>
                         <!-- End Box Head-->
@@ -411,24 +416,24 @@
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxx<span class="tooltiptext">Normal stress in X (North)</span></label></td><td><input type="text" id="sx"  name="sx" value="${stressMeasurement.sx}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxx<span class="tooltiptext">Normal stress in X (East - MPa))</span></label></td><td><input type="text" id="sx"  name="sx" value="${stressMeasurement.sx}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Syy<span class="tooltiptext">Normal stress in Y (Up)</span></label></td><td><input type="text" id="sy"  name="sy" value="${stressMeasurement.sy}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Syy<span class="tooltiptext">Normal stress in Y (Up - MPa)</span></label></td><td><input type="text" id="sy"  name="sy" value="${stressMeasurement.sy}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Szz<span class="tooltiptext">Normal stress in Y (East)</span></label></td><td><input type="text" id="sz"  name="sz" value="${stressMeasurement.sz}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Szz<span class="tooltiptext">Normal stress in Z (North – MPa)</span></label></td><td><input type="text" id="sz"  name="sz" value="${stressMeasurement.sz}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxy<span class="tooltiptext">Shear stress XY</span></label></td><td><input type="text" id="sxy"  name="sxy" value="${stressMeasurement.sxy}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxy<span class="tooltiptext">Shear stress XY (EU - MPa)</span></label></td><td><input type="text" id="sxy"  name="sxy" value="${stressMeasurement.sxy}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Syz<span class="tooltiptext">Shear stress YZ</span></label></td><td><input type="text" id="syz"  name="syz" value="${stressMeasurement.syz}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Syz<span class="tooltiptext">Shear stress YZ (UN - MPa)</span></label></td><td><input type="text" id="syz"  name="syz" value="${stressMeasurement.syz}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxz<span class="tooltiptext">Shear stress ZX</span></label></td><td><input type="text" id="szx"  name="szx" value="${stressMeasurement.szx}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxz<span class="tooltiptext">Shear stress ZX (NE - MPa)</span></label></td><td><input type="text" id="szx"  name="szx" value="${stressMeasurement.szx}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>                           
                                                                 <td><label class="tooltip"></label></td><td></td> 
@@ -460,22 +465,22 @@
                                                                 <td><label class="tooltip">S<sub>3</sub><span class="tooltiptext">Minor principal stress</span></label></td><td><input type="text" id="s3"  name="s3" value="${stressMeasurement.s3}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>1</sub><span class="tooltiptext">Bearing angle/azimuth of the major principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs1"  name="bs1" value="${stressMeasurement.bs1}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>1</sub><span class="tooltiptext">Bearing angle/azimuth of the major principal stress (clockwise from North - degrees)</span></label></td><td><input type="text" id="bs1"  name="bs1" value="${stressMeasurement.bs1}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>2</sub><span class="tooltiptext">Bearing angle/azimuth of the intermediate principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs2"  name="bs2" value="${stressMeasurement.bs2}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>2</sub><span class="tooltiptext">Bearing angle/azimuth of the intermediate principal stress (anticlockwise from East - degrees)</span></label></td><td><input type="text" id="bs2"  name="bs2" value="${stressMeasurement.bs2}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Ɵ<sub>3</sub><span class="tooltiptext">Bearing angle/azimuth of the minor principal stress (anticlockwise from East)</span></label></td><td><input type="text" id="bs3"  name="bs3" value="${stressMeasurement.bs3}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">Ɵ<sub>3</sub><span class="tooltiptext">Bearing angle/azimuth of the minor principal stress (clockwise from North - degrees)</span></label></td><td><input type="text" id="bs3"  name="bs3" value="${stressMeasurement.bs3}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>1</sub><span class="tooltiptext">Dip/plunge of the major principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips1"  name="dips1" value="${stressMeasurement.dips1}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>1</sub><span class="tooltiptext">Dip/plunge of the major principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips1"  name="dips1" value="${stressMeasurement.dips1}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>2</sub><span class="tooltiptext">Dip/plunge of the intermediate principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips2"  name="dips2" value="${stressMeasurement.dips2}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>2</sub><span class="tooltiptext">Dip/plunge of the intermediate principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips2"  name="dips2" value="${stressMeasurement.dips2}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">ψ<sub>3</sub><span class="tooltiptext">Dip/plunge of the minor principal stress (anticlockwise from horizontal)</span></label></td><td><input type="text" id="dips3"  name="dips3" value="${stressMeasurement.dips3}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                                <td><label class="tooltip">ψ<sub>3</sub><span class="tooltiptext">Dip/plunge of the minor principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips3"  name="dips3" value="${stressMeasurement.dips3}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                             </tr>
 
                                                         </tbody>
@@ -628,7 +633,7 @@
                                             <td><label >Message Text:</label></td><td><textarea  class="email" rows="12" cols="80" name="content"></textarea><br/></td>
                                         </tr>
                                         <tr>
-                                            <td> </td><td><button  class="button" type="submit"  name="action" value="request_data_corrections" >Send Message</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  class="button" type="reset" >Reset</button>  </td>
+                                            <td> </td><td><button  class=" button" type="submit"  name="action" value="request_data_corrections" >Send Message</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button  class="button" type="reset" >Reset</button>  </td>
                                         </tr>
                                     </tbody>
                                 </table>

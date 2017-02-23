@@ -39,7 +39,8 @@
   <div class="shell">
     <!-- Logo + Top Nav -->
     <div id="top">
-      <h1 id="logo" >Stress Measurements Record</h1>
+      <h1 id="logo" style="font-family: sans-serif; font-weight:bold ">Stress Measurements Record</h1>
+
       <div id="top-navigation">  <span></span> <a href="#">Help</a> <span>|</span>  <a href="login.jsp">Login</a> </div>
     </div>
     <!-- End Logo + Top Nav -->
