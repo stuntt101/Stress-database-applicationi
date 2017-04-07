@@ -30,7 +30,7 @@
         <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
         <script src="js/jquery.dataTables.yadcf.js"></script>
         <script src="js/tableHeadFixer.js"></script>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
             <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
             <script src="js/bootstrap.min.js"></script>
 
@@ -111,6 +111,8 @@
                    font-size: 12px;
                     
                 }
+                
+                
 
 
                 .loader {
@@ -308,7 +310,7 @@
                         buttons: [
                             {
                                 extend: 'collection',
-                                text: ' <p style="font-size:11px" >  <i   style="font-size:11px" class="fa fa-th-list"></i> Export<p>',
+                                text: ' <p style="font-size:12px; font-weight:bold;" >  <i   style="font-size:12px; font-weight:bold;" class="fa fa-th-list"></i> Export<p>',
                                 buttons: [
                                     {
                                         extend: 'copy',
@@ -320,6 +322,7 @@
                                     {
                                         extend: 'excelHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-excel-o"></i> Excel',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -327,6 +330,7 @@
                                     {
                                         extend: 'csvHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-text-o"></i> CSV',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -335,7 +339,7 @@
                             },
                             {
                                 extend: 'colvis',
-                                text: ' <p style="font-size:11px" >  <i   style="font-size:11px" class="fa fa-cog"></i> Show/Hide Columns<p>',
+                                text: ' <p style="font-size:12px; font-weight:bold;" >  <i   style="font-size:12px; font-weight:bold; class="fa fa-cog"></i> Show/Hide Columns<p>',
                                 postfixButtons: ['colvisRestore'],
                                 columns: ':not(.disable)',
                                 collectionLayout: 'fixed four-column'
@@ -543,7 +547,7 @@
             <div class="small-nav"> <a href="measurementList.jsp">Home</a> <span>&gt;</span>Measurements Record </div>
             <!-- End Small Nav -->
         </div>
-        <div  class="container">
+        <div  class="container" style="height:560px; overflow: auto;">
             <div class="row">
                 <div class="col-md-12">
 
@@ -749,7 +753,7 @@
         <!-- End Container -->
         <!-- Footer -->
         <div id="footer">
-            <div class="shell" style="text-align: center;font-weight: bold"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
+            <div class="" style="text-align: center;font-weight: bold"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
         </div>
         <!-- End Footer -->
     </body>

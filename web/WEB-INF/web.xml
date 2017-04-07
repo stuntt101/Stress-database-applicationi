@@ -21,12 +21,16 @@
         <servlet-class>com.stressmeasurement.controller.StressMeasurementController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CalculateStress</servlet-name>
-        <servlet-class>com.stressmeasurement.controller.CalculateStress</servlet-class>
+        <servlet-name>CalculateDCSStress</servlet-name>
+        <servlet-class>com.stressmeasurement.controller.CalculateDCSStress</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DownloadServlet</servlet-name>
         <servlet-class>com.stressmeasurement.controller.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CalculateMCSStress</servlet-name>
+        <servlet-class>com.stressmeasurement.controller.CalculateMCSStress</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AutoCompleteController</servlet-name>
@@ -49,12 +53,16 @@
         <url-pattern>/StressMeasurementController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CalculateStress</servlet-name>
-        <url-pattern>/CalculateStress</url-pattern>
+        <servlet-name>CalculateDCSStress</servlet-name>
+        <url-pattern>/CalculateDCSStress</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DownloadServlet</servlet-name>
         <url-pattern>/DownloadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CalculateMCSStress</servlet-name>
+        <url-pattern>/CalculateMCSStress</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -65,4 +73,16 @@
         <welcome-file>measurementList.jsp</welcome-file>
         <!--       <welcome-file>index.jsp</welcome-file>-->
     </welcome-file-list>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/PageNotFound.jsp</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/PageNotFound.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/PageNotFound.jsp</location>
+    </error-page>
 </web-app>

@@ -38,6 +38,14 @@
             }
         </script>
         <script type="text/javascript">
+            $(document).ready(function () {
+                $("#close").click(function () {
+                    location = 'list_users.jsp';
+
+                });
+            });
+        </script>
+        <script type="text/javascript">
             jQuery(function () {
 
                 $("#location").autocomplete("autocomplete/getLocations.jsp");
@@ -105,7 +113,7 @@
                         },
                         error: function (responseText) {
 
-                             alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero "+"Then try again ");
+                            alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero " + "Then try again ");
                             // Somehow process the validation messages,
                             // like you seem to be doing already.
                         }
@@ -126,6 +134,10 @@
                 display: block;
                 /*                width: 60px;*/
 
+            }
+            #close{
+
+                cursor: pointer;
             }
             .label1 {
                 color: #B4886B;
@@ -247,7 +259,7 @@
             request.setAttribute("new_record_Index", new_record_Index);
             User user;
 
-            if (session.getAttribute("admin")!= null) {
+            if (session.getAttribute("admin") != null) {
                 user = (User) session.getAttribute("admin");
                 String firstname = user.getFirstname();
                 String lastname = user.getLastname();
@@ -311,6 +323,7 @@
                         <!-- Box Head -->
                         <div class="box-head">
                             <h2 class="left"><strong>New User</strong></h2>
+                            <h2 class="right"><strong><span id="close">X</span></strong></h2>
                         </div>
                         <!-- End Box Head-->
                         <div class="box-content"> 

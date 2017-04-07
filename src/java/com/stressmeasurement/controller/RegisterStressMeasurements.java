@@ -65,6 +65,106 @@ public class RegisterStressMeasurements extends HttpServlet {
             User user = (User) session.getAttribute("user");
 
             Integer sm_id = Integer.parseInt(request.getParameter("sm_id"));
+            String ccs = "";
+
+            String ccsValue = request.getParameter("ccs");
+            if (ccsValue.equalsIgnoreCase("1")) {
+                ccs = "Mine cordinate system";
+
+                Integer bs1 = Integer.parseInt(request.getParameter("bs1_1"));
+                Integer bs2 = Integer.parseInt(request.getParameter("bs2_1"));
+                Integer bs3 = Integer.parseInt(request.getParameter("bs3_1"));
+                Integer dips1 = Integer.parseInt(request.getParameter("dips1_1"));
+                Integer dips2 = Integer.parseInt(request.getParameter("dips2_1"));
+                Integer dips3 = Integer.parseInt(request.getParameter("dips3_1"));
+                float s1 = Float.parseFloat(request.getParameter("s1_1"));
+                float s2 = Float.parseFloat(request.getParameter("s2_1"));
+                float s3 = Float.parseFloat(request.getParameter("s3_1"));
+                float sx = Float.parseFloat(request.getParameter("sx1"));
+                float sy = Float.parseFloat(request.getParameter("sy1"));
+                float sz = Float.parseFloat(request.getParameter("sz1"));
+                float sxy = Float.parseFloat(request.getParameter("sxy1"));
+                float syz = Float.parseFloat(request.getParameter("syz1"));
+                float szx = Float.parseFloat(request.getParameter("szx1"));
+                float sh1 = Float.parseFloat(request.getParameter("sh1_1"));
+                float sh3 = Float.parseFloat(request.getParameter("sh3_1"));
+                Integer bsh1 = Integer.parseInt(request.getParameter("bsh1_1"));
+                float k1 = Float.parseFloat(request.getParameter("k1_1"));
+                float k3 = Float.parseFloat(request.getParameter("k3_1"));
+                float kx = Float.parseFloat(request.getParameter("kx_1"));
+                float kz = Float.parseFloat(request.getParameter("kz_1"));
+
+                stressMeasurement.setBs1(bs1);
+                stressMeasurement.setBs2(bs2);
+                stressMeasurement.setBs3(bs3);
+                stressMeasurement.setDips1(dips1);
+                stressMeasurement.setDips2(dips2);
+                stressMeasurement.setDips3(dips3);
+                stressMeasurement.setS1(s1);
+                stressMeasurement.setS2(s2);
+                stressMeasurement.setS3(s3);
+                stressMeasurement.setSx(sx);
+                stressMeasurement.setSy(sy);
+                stressMeasurement.setSz(sz);
+                stressMeasurement.setSxy(sxy);
+                stressMeasurement.setSyz(syz);
+                stressMeasurement.setSzx(szx);
+                stressMeasurement.setSh1(sh1);
+                stressMeasurement.setSh3(sh3);
+                stressMeasurement.setBsh1(bsh1);
+                stressMeasurement.setK1(k1);
+                stressMeasurement.setK3(k3);
+                stressMeasurement.setKx(kx);
+                stressMeasurement.setKz(kz);
+
+            } else {
+                ccs = "Database cordinate system";
+                Integer bs1 = Integer.parseInt(request.getParameter("bs1"));
+                Integer bs2 = Integer.parseInt(request.getParameter("bs2"));
+                Integer bs3 = Integer.parseInt(request.getParameter("bs3"));
+                Integer dips1 = Integer.parseInt(request.getParameter("dips1"));
+                Integer dips2 = Integer.parseInt(request.getParameter("dips2"));
+                Integer dips3 = Integer.parseInt(request.getParameter("dips3"));
+                float s1 = Float.parseFloat(request.getParameter("s1"));
+                float s2 = Float.parseFloat(request.getParameter("s2"));
+                float s3 = Float.parseFloat(request.getParameter("s3"));
+                float sx = Float.parseFloat(request.getParameter("sx"));
+                float sy = Float.parseFloat(request.getParameter("sy"));
+                float sz = Float.parseFloat(request.getParameter("sz"));
+                float sxy = Float.parseFloat(request.getParameter("sxy"));
+                float syz = Float.parseFloat(request.getParameter("syz"));
+                float szx = Float.parseFloat(request.getParameter("szx"));
+                float sh1 = Float.parseFloat(request.getParameter("sh1"));
+                float sh3 = Float.parseFloat(request.getParameter("sh3"));
+                Integer bsh1 = Integer.parseInt(request.getParameter("bsh1"));
+                float k1 = Float.parseFloat(request.getParameter("k1"));
+                float k3 = Float.parseFloat(request.getParameter("k3"));
+                float kx = Float.parseFloat(request.getParameter("kx"));
+                float kz = Float.parseFloat(request.getParameter("kz"));
+
+                stressMeasurement.setBs1(bs1);
+                stressMeasurement.setBs2(bs2);
+                stressMeasurement.setBs3(bs3);
+                stressMeasurement.setDips1(dips1);
+                stressMeasurement.setDips2(dips2);
+                stressMeasurement.setDips3(dips3);
+                stressMeasurement.setS1(s1);
+                stressMeasurement.setS2(s2);
+                stressMeasurement.setS3(s3);
+                stressMeasurement.setSx(sx);
+                stressMeasurement.setSy(sy);
+                stressMeasurement.setSz(sz);
+                stressMeasurement.setSxy(sxy);
+                stressMeasurement.setSyz(syz);
+                stressMeasurement.setSzx(szx);
+                stressMeasurement.setSh1(sh1);
+                stressMeasurement.setSh3(sh3);
+                stressMeasurement.setBsh1(bsh1);
+                stressMeasurement.setK1(k1);
+                stressMeasurement.setK3(k3);
+                stressMeasurement.setKx(kx);
+                stressMeasurement.setKz(kz);
+            }
 
             String avg = request.getParameter("avg") != null ? request.getParameter("avg") : "";
             String gg = request.getParameter("gg") != null ? request.getParameter("gg") : "";
@@ -79,29 +179,7 @@ public class RegisterStressMeasurements extends HttpServlet {
             Date date = format.parse(request.getParameter("date"));
             String method = request.getParameter("method") != null ? request.getParameter("method") : "";
             float depth = Float.parseFloat(request.getParameter("depth"));
-            Integer bs1 = Integer.parseInt(request.getParameter("bs1"));
-            Integer bs2 = Integer.parseInt(request.getParameter("bs2"));
-            Integer bs3 = Integer.parseInt(request.getParameter("bs3"));
-            Integer dips1 = Integer.parseInt(request.getParameter("dips1"));
-            Integer dips2 = Integer.parseInt(request.getParameter("dips2"));
-            Integer dips3 = Integer.parseInt(request.getParameter("dips3"));
-            float s1 = Float.parseFloat(request.getParameter("s1"));
-            float s2 = Float.parseFloat(request.getParameter("s2"));
-            float s3 = Float.parseFloat(request.getParameter("s3"));
             float sob = Float.parseFloat(request.getParameter("sob"));
-            float sx = Float.parseFloat(request.getParameter("sx"));
-            float sy = Float.parseFloat(request.getParameter("sy"));
-            float sz = Float.parseFloat(request.getParameter("sz"));
-            float sxy = Float.parseFloat(request.getParameter("sxy"));
-            float syz = Float.parseFloat(request.getParameter("syz"));
-            float szx = Float.parseFloat(request.getParameter("szx"));
-            float sh1 = Float.parseFloat(request.getParameter("sh1"));
-            float sh3 = Float.parseFloat(request.getParameter("sh3"));
-            Integer bsh1 = Integer.parseInt(request.getParameter("bsh1"));
-            float k1 = Float.parseFloat(request.getParameter("k1"));
-            float k3 = Float.parseFloat(request.getParameter("k3"));
-            float kx = Float.parseFloat(request.getParameter("kx"));
-            float kz = Float.parseFloat(request.getParameter("kz"));
             Integer no = Integer.parseInt(request.getParameter("no"));
             float e = Float.parseFloat(request.getParameter("e"));
             float pr = Float.parseFloat(request.getParameter("pr"));
@@ -119,7 +197,7 @@ public class RegisterStressMeasurements extends HttpServlet {
 
             byte[] bytes = null;
             String fileType = "";
-            if (filePart != null&&filePart.getSize()!=0) {
+            if (filePart != null && filePart.getSize() != 0) {
 
                 bytes = new byte[pdfFileBytes.available()];
                 pdfFileBytes.read(bytes);
@@ -140,29 +218,8 @@ public class RegisterStressMeasurements extends HttpServlet {
             stressMeasurement.setDate(date);
             stressMeasurement.setMethod(method);
             stressMeasurement.setDepth(depth);
-            stressMeasurement.setBs1(bs1);
-            stressMeasurement.setBs2(bs2);
-            stressMeasurement.setBs3(bs3);
-            stressMeasurement.setDips1(dips1);
-            stressMeasurement.setDips2(dips2);
-            stressMeasurement.setDips3(dips3);
-            stressMeasurement.setS1(s1);
-            stressMeasurement.setS2(s2);
-            stressMeasurement.setS3(s3);
             stressMeasurement.setSob(sob);
-            stressMeasurement.setSx(sx);
-            stressMeasurement.setSy(sy);
-            stressMeasurement.setSz(sz);
-            stressMeasurement.setSxy(sxy);
-            stressMeasurement.setSyz(syz);
-            stressMeasurement.setSzx(szx);
-            stressMeasurement.setSh1(sh1);
-            stressMeasurement.setSh3(sh3);
-            stressMeasurement.setBsh1(bsh1);
-            stressMeasurement.setK1(k1);
-            stressMeasurement.setK3(k3);
-            stressMeasurement.setKx(kx);
-            stressMeasurement.setKz(kz);
+            stressMeasurement.setCcs(ccs);
             stressMeasurement.setNo(no);
             stressMeasurement.setE(e);
             stressMeasurement.setPr(pr);

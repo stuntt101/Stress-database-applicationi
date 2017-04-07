@@ -77,7 +77,7 @@ h3 a{ text-decoration: none; }
 #navigation ul li a.active { font-size:12px; font-weight: bold; color:black; }
 
 
-#container { padding:20px 0;}
+#container { padding:20px 0; height: 100%}
 
 .small-nav { color:#978b48; padding-bottom:20px; }
 .small-nav a{ color:#6f6636; }
@@ -101,8 +101,8 @@ h3 a{ text-decoration: none; }
 #show_content { float:left; width:900px; 
 }
 #content { float:left; width:750px; }
-#content2 { float:left; width:750px;;height:500px; }
-#sidebar { float:right; width:225px;height:500px; }
+#content2 { float:left; width:750px;;height:550px;overflow: auto; }
+#sidebar { float:right; width:225px;height:550px; }
 
 table{
     max-width: none;
@@ -176,11 +176,22 @@ textarea.size1 { height:180px; }
 .add-button:hover { color:#333;}
 
 
-#footer { height:40px; background:#5c9ccc; line-height:44px; color:#fff; font-weight: bold;
-          bottom:0;position: fixed;
+#footer { height:30px; background:#5c9ccc; line-height:25px; color:#fff; font-weight: bold;
+          position:fixed;
+          bottom:0;
+          right: 0;
+            left: 0;
+             z-index: -1;
 
+          width:100%;}
 
-          z-index: 1;  
+#footer2 { height:30px; background:#5c9ccc; line-height:25px; color:#fff; font-weight: bold;
+          position:static;
+          bottom:0;
+          right: 0;
+            left: 0;
+             z-index: -1;
+
           width:100%;}
 #footer a{ color:#fff; font-weight: bold;}
 .readMessage {

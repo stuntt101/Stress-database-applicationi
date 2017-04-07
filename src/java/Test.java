@@ -28,37 +28,31 @@ public class Test {
             {-1.8800, 26.7000, 4.3200},
             {-6.7000, 4.3200, 21.2000}}
         );
-        
+
         DoubleMatrix matrixC = new DoubleMatrix(new double[][]{
-            {12.4800,  -6.7000},
-            {-6.7000,  21.2000}}
+            {12.4800, -6.7000},
+            {-6.7000, 21.2000}}
         );
         Matrix matrixD = new Matrix(new double[][]{
-            {12.4800,  -6.7000},
-            {-6.7000,  21.2000}}
+            {12.4800, -6.7000},
+            {-6.7000, 21.2000}}
         );
 
         StressCalculation compute = new StressCalculation();
         StressMeasurementService tressMeasurementService = new StressMeasurementService();
-        int x=tressMeasurementService.getMaxIndexOfRecord();
-//        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixC));
+        int x = tressMeasurementService.getMaxIndexOfRecord();
+        System.out.println("Principal EigenValues" + compute.getPrincipalEigenvalues(matrixC));
 
+        for (int i = 0; i < compute.getPrincipalEigenvalues(matrixB).size(); i++) {
+            System.out.println("x=" + x);
 
-          Integer smId = 1;
-          StressMeasurementService service = new StressMeasurementService();
-           StressMeasurement stressMeasurement = service.getStressMeasurementById(smId);
-           byte[] pdf= stressMeasurement.getFileUploaded();
-         System.out.println("pdf size=" + pdf.length);
-//        for(int i=0;i<compute.getPrincipalEigenvalues(matrixB).size();i++){
-//        System.out.println("x=" + x);
-//        
-//        }
-//        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(2));
-//         System.out.println("S2=" + compute.getPrincipalEigenvalues(matrixB).get(1));
-//          System.out.println("S3=" + compute.getPrincipalEigenvalues(matrixB).get(0));
-         
-       // System.out.println("#");
-        //System.out.println("BSH1  " + compute.getBearings(matrixD));
-        //System.out.println("Bearing and dips" + compute.getBearingAndDips(matrixA));
+        }
+        System.out.println("S1=" + compute.getPrincipalEigenvalues(matrixB).get(2));
+        System.out.println("S2=" + compute.getPrincipalEigenvalues(matrixB).get(1));
+        System.out.println("S3=" + compute.getPrincipalEigenvalues(matrixB).get(0));
+
+        System.out.println("#");
+        System.out.println("BSH1  " + compute.getBearing(matrixD));
+        System.out.println("Bearing and dips" + compute.getDCSBearingAndDips(matrixA));
     }
 }

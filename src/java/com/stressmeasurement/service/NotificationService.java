@@ -205,7 +205,7 @@ public class NotificationService {
         List<Message> list = new ArrayList<Message>();
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-        String QUERY = "from Message m where m.recipientId='" + recipient.getUsername() + "'and m.flagRDeleted = '" + flagRDeleted + "'and m.flagRRead = '" + flagRRead +"'";
+        String QUERY = "from Message m where m.recipientId='" + recipient.getUsername() + "'and m.flagRDeleted = '" + flagRDeleted + "'and m.flagRRead = '" + flagRRead +"order by m.sentDate desc'";
 
         try {
 

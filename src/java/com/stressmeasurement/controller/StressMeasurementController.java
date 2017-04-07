@@ -358,9 +358,11 @@ public class StressMeasurementController extends HttpServlet {
 
             if (action.equalsIgnoreCase("cancel")) {
                 forward = ADMIN_NOTIFICATIONS;
+                 request.setAttribute("isCanceled", "isCanceled");
             }
-            if (action.equalsIgnoreCase("us_canceL")) {
+            if (action.equalsIgnoreCase("us_cancel")) {
                 forward = USER_NOTIFICATIONS;
+                 request.setAttribute("isCanceled", "isCanceled");
             }
 
             RequestDispatcher view = request.getRequestDispatcher(forward);

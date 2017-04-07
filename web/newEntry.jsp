@@ -35,21 +35,21 @@
             }
         </script>
         <script type="text/javascript">
-    function ValidateExtension() {
-        var allowedFiles = [".doc", ".docx", ".pdf",".png",".jpeg",".jpg",".gif",".xls","xlsx",".csv",".ppt",".pptx"];
-        
-       
-        var fileUpload = document.getElementById("file_uploaded");
-        //var lblError = document.getElementById("lblError");
-        var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
-        if (!regex.test(fileUpload.value.toLowerCase())) {
-            
-           alert("Please upload files having extensions: " + allowedFiles.join(', ') + " only.");
-           fileUpload.value="";
-        }
-        
-    }
-</script>
+            function ValidateExtension() {
+                var allowedFiles = [".doc", ".docx", ".pdf", ".png", ".jpeg", ".jpg", ".gif", ".xls", "xlsx", ".csv", ".ppt", ".pptx"];
+
+
+                var fileUpload = document.getElementById("file_uploaded");
+                //var lblError = document.getElementById("lblError");
+                var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+                if (!regex.test(fileUpload.value.toLowerCase())) {
+
+                    alert("Please upload files having extensions: " + allowedFiles.join(', ') + " only.");
+                    fileUpload.value = "";
+                }
+
+            }
+        </script>
         <script type="text/javascript">
             jQuery(function () {
 
@@ -79,13 +79,34 @@
 
             });
         </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#close").click(function () {
+                    location = 'measurementList_us.jsp';
+
+                });
+            });
+        </script>
 
         <script>
             $(document).ready(function () {
-                $('#Calculate').click(function (event) { 
+                $("input[name$='ccs']").click(function () {
+                    var test = $(this).val();
+
+
+                    $("div.desc").hide();
+                    $("#Coordinate" + test+"").show();
+                    $("#Coordinate" + test+":input").prop('required',true);
+
+                });
+            });
+        </script>   
+        <script>
+            $(document).ready(function () {
+                $('#CalculateDCS').click(function (event) { 
                     event.preventDefault();
                     $.ajax({
-                        url: 'CalculateStress',
+                        url: 'CalculateDCSStress',
                         type: 'post',
                         dataType: 'json',
                         data: {
@@ -118,9 +139,58 @@
                         },
                         error: function (responseText) {
 
-                            alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero "+"Then try again ");
+                            alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero " + "Then try again ");
                             // Somehow process the validation messages,
                             // like you seem to be doing already.
+                        }
+                    });
+                });
+            });</script> 
+         <script>
+            $(document).ready(function () {
+                $('#CalculateMCS').click(function (event) { 
+                    event.preventDefault();
+                    $.ajax({
+                        url: 'CalculateMCSStress',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {
+                            sx1: $('#sx1').val(),
+                            sy1: $('#sy1').val(),
+                            sz1: $('#sz1').val(),
+                            sxy1: $('#sxy1').val(),
+                            syz1: $('#syz1').val(),
+                            szx1: $('#szx1').val()
+                        },
+                        success: function (responseText) {
+
+                            $('#s1_1').val(responseText.s1);
+                            $('#s2_1').val(responseText.s2);
+                            $('#s3_1').val(responseText.s3);
+                            $('#bs1_1').val(responseText.bs1);
+                            $('#bs2_1').val(responseText.bs2);
+                            $('#bs3_1').val(responseText.bs3);
+                            $('#dips1_1').val(responseText.dips1);
+                            $('#dips2_1').val(responseText.dips2);
+                            $('#dips3_1').val(responseText.dips3);
+                            $('#bsh1_1').val(responseText.bsh1);
+                            $('#sh1_1').val(responseText.sh1);
+                            $('#sh3_1').val(responseText.sh3);
+                            $('#k1_1').val(responseText.k1);
+                            $('#k3_1').val(responseText.k3);
+                            $('#kx_1').val(responseText.kx);
+                            $('#kz_1').val(responseText.kz);
+
+                        },
+                        error: function (responseText) {
+
+                            //alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero " + "Then try again ");
+                            // Somehow process the validation messages,
+                            // like you seem to be doing already.
+                            
+                            var test= $('#s1_1').val(responseText.s1);
+                            
+                            alert(test);
                         }
                     });
                 });
@@ -139,6 +209,10 @@
                 display: block;
                 /*                width: 60px;*/
 
+            }
+             #close{
+
+                cursor: pointer;
             }
             .label1 {
                 color: #B4886B;
@@ -268,7 +342,7 @@
 
 
         %>
- <!-- Header -->
+        <!-- Header -->
         <div id="header">
             <div class="shell">
                 <!-- Logo + Top Nav -->
@@ -291,7 +365,7 @@
                 <!-- End Main Nav -->
             </div>
         </div>
-                <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
+        <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
         <!-- End Header -->
         <!-- Container -->
 
@@ -303,13 +377,14 @@
             </div>
             <!-- Content -->
             <center>
-                <div id="login" style="width: 1000px;height: 800px; ">
+                <div id="login" style="width: 1000px;height: 800px;">
 
                     <!-- Box -->
                     <div class="box">
                         <!-- Box Head -->
                         <div class="box-head">
                             <h2 class="left"><strong>New Record #${new_record_Index}</strong></h2>
+                             <h2 class="right"><strong><span id="close">X</span></strong></h2>
 
                         </div>
                         <!-- End Box Head-->
@@ -407,7 +482,7 @@
                                                                 <td><label class="tooltip">Depth<span class="tooltiptext">Depth below surface at which the measurement was done (m)</span></label></td><td><input type="text" id="depth"  name="depth"required></input><span style="margin-left:-35px; color: #bdbdbd;">(m)</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Expected vertical stress<span class="tooltiptext">Expected vertical stress at the measurement horizon (ρgH or estimated from numerical models - MPa)</span></label></td><td><input type="text" id="sob"  name="sob" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Expected vertical stress<span class="tooltiptext">Expected vertical stress at the measurement horizon (ρgH or estimated from numerical models - MPa)</span></label></td><td><input type="text" id="sob"  name="sob" required></input><span style="margin-left:-35px; color: #bdbdbd;">ρgH</span> </td>
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Date<span class="tooltiptext">Date when the stress measurement was done</span></label></td><td><input type="text" id="date"  name="date" required/></td>
@@ -421,34 +496,44 @@
                                 </fieldset>
                                 <br/>
                                 <fieldset class="dashed_fieldset">
+                                    <table>
+
+                                        <tr>
+                                            <td><label><strong>[Mine Coordinate system]</strong></label><input type="radio" checked="checked"  name="ccs" value="1"/></td>
+
+                                            <td><label><strong>[Database Coordinate system]</strong></label><input type="radio"   name="ccs" value="2"/></td>
+
+                                        </tr>
+
+                                    </table>
                                     <br />
                                     <center>
 
-                                        <div style="display:block; width:100%">
+                                        <div style="display:block; width:100%" id="Coordinate1" class="desc">
                                             <div style="margin:0 auto;">
                                                 <fieldset class="inline" style="height: 300px;">
                                                     <legend class="formLegend"><b>Cartesian stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxx<span class="tooltiptext">Normal stress in X (East - MPa)</span></label></td><td><input type="text" id="sx"  name="sx" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxx<span class="tooltiptext" >Normal stress in X (South - MPa)</span></label></td><td><input type="text" id="sx1"  name="sx1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Syy<span class="tooltiptext">Normal stress in Y (Up - MPa)</span></label></td><td><input type="text" id="sy"  name="sy" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Syy<span class="tooltiptext" >Normal stress in Y (West - MPa)</span></label></td><td><input type="text" id="sy1"  name="sy1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Szz<span class="tooltiptext">Normal stress in Z (North – MPa)</span></label></td><td><input type="text" id="sz"  name="sz" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Szz<span class="tooltiptext" >Normal stress in Z (Down – MPa)</span></label></td><td><input type="text" id="sz1"  name="sz1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxy<span class="tooltiptext">Shear stress XY (EU - MPa)</span></label></td><td><input type="text" id="sxy"  name="sxy" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxy<span class="tooltiptext" i>Shear stress XY (SW - MPa)</span></label></td><td><input type="text" id="sxy1"  name="sxy1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Syz<span class="tooltiptext">Shear stress YZ (UN - MPa)</span></label></td><td><input type="text" id="syz"  name="syz" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Syz<span class="tooltiptext" >Shear stress YZ (WD - MPa)</span></label></td><td><input type="text" id="syz1"  name="syz1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><label class="tooltip">Sxz<span class="tooltiptext">Shear stress ZX (NE - MPa)</span></label></td><td><input type="text" id="szx"  name="szx" required></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                                <td><label class="tooltip">Sxz<span class="tooltiptext">Shear stress ZX (DS - MPa)</span></label></td><td><input type="text" id="szx1"  name="szx1" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
                                                             </tr>
                                                             <tr>                           
                                                                 <td><label class="tooltip"></label></td><td></td> 
@@ -459,7 +544,129 @@
 
                                                             </tr>
                                                             <tr>                           
-                                                                <td><label></label></td><td><button  class="button button2"  value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
+                                                                <td><label></label></td><td><button  class="button button2"  value="CalculateMCS" id="CalculateMCS" >Calculate principal stresses and k ratios</button></td>
+
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                                <fieldset class="inline" style="height: 300px;">
+                                                    <legend class="formLegend"><b>Principal stresses</b></legend>
+                                                    <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><label class="tooltip">S<sub>1</sub><span class="tooltiptext">Major principal stress</span></label></td><td><input type="text" id="s1_1"  name="s1_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">S<sub>2</sub><span class="tooltiptext">Intermediate principal stress</span></label></td><td><input type="text" id="s2_1"  name="s2_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">S<sub>3</sub><span class="tooltiptext">Minor principal stress</span></label></td><td><input type="text" id="s3_1"  name="s3_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Ɵ<sub>1</sub><span class="tooltiptext">Bearing angle/azimuth of the major principal stress (clockwise from North - degrees))</span></label></td><td><input type="text" id="bs1_1"  name="bs1_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Ɵ<sub>2</sub><span class="tooltiptext">Bearing angle/azimuth of the intermediate principal stress (anticlockwise from East - degrees)</span></label></td><td><input type="text" id="bs2_1"  name="bs2_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Ɵ<sub>3</sub><span class="tooltiptext">Bearing angle/azimuth of the minor principal stress (clockwise from North - degrees)</span></label></td><td><input type="text" id="bs3_1"  name="bs3_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">ψ<sub>1</sub><span class="tooltiptext">Dip/plunge of the major principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips1_1"  name="dips1_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">ψ<sub>2</sub><span class="tooltiptext">Dip/plunge of the intermediate principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips2_1"  name="dips2_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">ψ<sub>3</sub><span class="tooltiptext">Dip/plunge of the minor principal stress (down from horizontal - degrees)</span></label></td><td><input type="text" id="dips3_1"  name="dips3_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                                <fieldset class="inline" style="height: 300px;">
+                                                    <legend class="formLegend"><b>Horizontal plane stresses</b></legend>
+                                                    <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
+                                                        <tbody>
+                                                          
+                                                        <tr>
+                                                            <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1_1"  name="sh1_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">S<sub>h</sub><span class="tooltiptext">Minor stress in the horizontal plane</span></label></td><td><input type="text" id="sh3_1"  name="sh3_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1_1"  name="bsh1_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        
+                                                         <tr>
+                                                            <td></td><td><br></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>H</sub><span class="tooltiptext">Ratio of the major horizontal-plane stress (SH) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k1_1"  name="k1_1" readonly/> </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>h</sub><span class="tooltiptext">Ratio of the minor horizontal-plane stress (Sh) to the measured vertical stress (σy)</span></label></td><td><input type="text" id="k3_1"  name="k3_1" readonly/></td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>E-W</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx_1"  name="kx_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label class="tooltip">k<sub>N-S</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz_1"  name="kz_1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+
+                                            </div>
+                                        </div> 
+                                        <div style="display:none; width:100%" id="Coordinate2" class="desc">
+                                            <div style="margin:0 auto;">
+                                                <fieldset class="inline" style="height: 300px;">
+                                                    <legend class="formLegend"><b>Cartesian stresses</b></legend>
+                                                    <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><label class="tooltip">Sxx<span class="tooltiptext" >Normal stress in X (East - MPa)</span></label></td><td><input type="text" id="sx"  name="sx" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Syy<span class="tooltiptext" >Normal stress in Y (Up - MPa)</span></label></td><td><input type="text" id="sy"  name="sy" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Szz<span class="tooltiptext" >Normal stress in Z (North – MPa)</span></label></td><td><input type="text" id="sz"  name="sz" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Sxy<span class="tooltiptext" >Shear stress XY (EU - MPa)</span></label></td><td><input type="text" id="sxy"  name="sxy" ></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Syz<span class="tooltiptext" >Shear stress YZ (UN - MPa)</span></label></td><td><input type="text" id="syz"  name="syz" </input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><label class="tooltip">Sxz<span class="tooltiptext">Shear stress ZX (NE - MPa)</span></label></td><td><input type="text" id="szx"  name="szx"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                            </tr>
+                                                            <tr>                           
+                                                                <td><label class="tooltip"></label></td><td></td> 
+
+                                                            </tr>
+                                                            <tr>                           
+                                                                <td><label></label></td><td></td> 
+
+                                                            </tr>
+                                                            <tr>                           
+                                                                <td><label></label></td><td><button  class="button button2"  value="CalculateDCS" id="CalculateDCS" >Calculate principal stresses and k ratios</button></td>
 
                                                             </tr>
 
@@ -502,12 +709,10 @@
                                                     </table>
                                                 </fieldset>
                                                 <fieldset class="inline" style="height: 300px;">
-                                                    <legend class="formLegend"><b>__</b></legend>
+                                                    <legend class="formLegend"><b>Horizontal plane stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
                                                         <tbody>
-                                                            <tr>
-                                                                <td></td><td><legend class="formLegend"><b>Horizontal plane stresses</b></legend></td>
-                                                        </tr>
+                                                           
                                                         <tr>
                                                             <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
@@ -518,6 +723,9 @@
                                                         </tr>
                                                         <tr>
                                                             <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td><td><br></td>
                                                         </tr>
                                                         <tr>
                                                             <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
@@ -532,10 +740,10 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>E-W</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>N-S</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -623,7 +831,7 @@
         </div>
         <!-- End Container -->
         <!-- Footer -->
-        <div id="footer">
+        <div id="footer2">
             <div class="" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
         </div>
         <!-- End Footer -->

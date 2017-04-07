@@ -78,6 +78,12 @@
                 location = 'ad_notifications.jsp';
             </script>
         </c:if>
+        
+         <c:if test="${not empty isCanceled}">
+            <script type="text/javascript" >
+                location = 'ad_notifications.jsp';
+            </script>
+        </c:if>
          <c:if test="${not empty messsage_deleted}">
             <script type="text/javascript" >
 
@@ -217,7 +223,7 @@
         <!-- End Container -->
         <!-- Footer -->
         <div id="footer">
-            <div class="shell" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
+            <div class="" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
         </div>
         <!-- End Footer --
         <!-- End Footer -->

@@ -31,7 +31,7 @@
         <script type="text/javascript" charset="utf8" src="js/jquery.dataTables.min.js"></script>
         <script src="js/jquery.dataTables.yadcf.js"></script>
         <script src="js/tableHeadFixer.js"></script>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
             <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
             <script src="js/bootstrap.min.js"></script>
 
@@ -319,6 +319,7 @@
                                     {
                                         extend: 'excelHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-excel-o"></i> Excel',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -326,6 +327,7 @@
                                     {
                                         extend: 'csvHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-text-o"></i> CSV',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -543,7 +545,7 @@
 
 
         <!--        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>-->
-        <div  class="container">
+         <div  class="container" style="height:560px; overflow: auto;">
             <div class="row">
                 <div class="col-md-12">
 
@@ -749,7 +751,7 @@
         <!-- End Container -->
         <!-- Footer -->
         <div id="footer">
-            <div class="shell" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
+            <div  style="text-align: center;"> Copyright &copy; CSIR 2017. All Rights Reserved.</div>
         </div>
         <!-- End Footer -->
     </body>
