@@ -88,6 +88,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "StressMeasurement.findByFileUploadedType", query = "SELECT s FROM StressMeasurement s WHERE s.fileUploadedType = :fileUploadedType")})
 public class StressMeasurement implements Serializable {
 
+    @Size(max = 100)
+    @Column(name = "CCS")
+    private String ccs;
+    @Lob
+    @Column(name = "FILE_UPLOADED")
+    private byte[] fileUploaded;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -206,9 +213,6 @@ public class StressMeasurement implements Serializable {
     @Size(max = 4)
     @Column(name = "VERIFIED")
     private String verified;
-    @Lob
-    @Column(name = "FILE_UPLOADED")
-    private byte[] fileUploaded;
     @Size(max = 900)
     @Column(name = "FILE_UPLOADED_TYPE")
     private String fileUploadedType;
@@ -415,6 +419,13 @@ public class StressMeasurement implements Serializable {
 
     public void setSob(Float sob) {
         this.sob = sob;
+    }
+     public String getCcs() {
+        return ccs;
+    }
+
+    public void setCcs(String ccs) {
+        this.ccs = ccs;
     }
 
     public Float getSx() {
@@ -666,5 +677,9 @@ public class StressMeasurement implements Serializable {
     public String toString() {
         return "com.stressmeasurement.entity.StressMeasurement[ smId=" + smId + " ]";
     }
+
+   
+
+   
     
 }

@@ -97,6 +97,11 @@
                 location = 'us_notifications.jsp';
             </script>
         </c:if>
+         <c:if test="${not empty isCanceled}">
+            <script type="text/javascript" >
+                location = 'us_notifications.jsp';
+            </script>
+        </c:if>
          <c:if test="${not empty isVerified}">
             <script type="text/javascript" >
 

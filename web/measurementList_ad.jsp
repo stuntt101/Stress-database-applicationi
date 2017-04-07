@@ -313,6 +313,7 @@
                             {
                                 extend: 'collection',
                                 text: ' <p style="font-size:11px" >  <i   style="font-size:11px" class="fa fa-th-list"></i> Export<p>',
+                                
                                 buttons: [
                                     {
                                         extend: 'copy',
@@ -324,6 +325,7 @@
                                     {
                                         extend: 'excelHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-excel-o"></i> Excel',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -331,6 +333,7 @@
                                     {
                                         extend: 'csvHtml5',
                                         text: '<i   style="font-size:15px" class="fa fa-file-text-o"></i> CSV',
+                                        title: 'Data export',
                                         exportOptions: {
                                             columns: ':visible'
                                         }
@@ -519,7 +522,7 @@
             <!-- End Small Nav -->
         </div>
         <!--        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>-->
-        <div  class="container">
+         <div  class="container" style="height:560px; overflow: auto;">
             <div class="row">
                 <div class="col-md-12">
 

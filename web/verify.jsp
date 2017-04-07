@@ -407,6 +407,8 @@
                                 <br/>
                                 <fieldset class="dashed_fieldset">
                                     <br />
+                                    
+                                    
                                     <center>
 
                                         <div style="display:block; width:100%">
@@ -415,6 +417,10 @@
                                                     <legend class="formLegend"><b>Cartesian stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
+                                                            <tr>
+                                                                <td><label class="tooltip"></label></td><td><strong><i>${stressMeasurement.ccs}</i></strong></td>
+
+                                                            </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Sxx<span class="tooltiptext">Normal stress in X (East - MPa))</span></label></td><td><input type="text" id="sx"  name="sx" value="${stressMeasurement.sx}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
@@ -487,12 +493,10 @@
                                                     </table>
                                                 </fieldset>
                                                 <fieldset class="inline" style="height: 300px;">
-                                                    <legend class="formLegend"><b>____</b></legend>
+                                                    <legend class="formLegend"><b>Horizontal plane stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
                                                         <tbody>
-                                                            <tr>
-                                                                <td></td><td><legend class="formLegend"><b>Horizontal plane stresses</b></legend></td>
-                                                        </tr>
+                                                           
                                                         <tr>
                                                             <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1" value="${stressMeasurement.sh1}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
@@ -503,6 +507,9 @@
                                                         </tr>
                                                         <tr>
                                                             <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1" value="${stressMeasurement.bsh1}"></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td></td><td><br></td>
                                                         </tr>
                                                         <tr>
                                                             <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
@@ -517,10 +524,10 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>E-W</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" value="${stressMeasurement.kz}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>N-S</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" value="${stressMeasurement.kz}"></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -679,7 +686,7 @@
         </script>
         <!-- End Container -->
         <!-- Footer -->
-        <div id="footer">
+        <div id="footer2">
             <div class="" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
         </div>
         <!-- End Footer -->

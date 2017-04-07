@@ -107,7 +107,7 @@
                         },
                         error: function (responseText) {
 
-                              alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero "+"Then try again ");
+                            alert("Something went wrong " + "Please make sure that Normal stress(Syy) in Y (Up) is not equal to zero " + "Then try again ");
                             // Somehow process the validation messages,
                             // like you seem to be doing already.
                         }
@@ -118,8 +118,8 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
         <link rel="stylesheet" href="css/main.css" type="text/css" media="all" />
-    <style>
-         label{
+        <style>
+            label{
                 color: #555555;
                 font-weight: bold;
                 font-size:12px;
@@ -234,12 +234,12 @@
             .tooltip:hover .tooltiptext {
                 visibility: visible;
             }
-            </style>
+        </style>
 
     </head>
     <body>
         <%
-            
+
             StressMeasurementService stressMeasurementService = new StressMeasurementService();
             UserService userService = new UserService();
             List<String> list = stressMeasurementService.getAllCountries();
@@ -250,7 +250,7 @@
             String username = request.getParameter("username");
             StressMeasurement stressMeasurement = stressMeasurementService.getStressMeasurementById(smId);
             User user = userService.getUserByUsername(username);
-            
+
             String firstname = user.getFirstname();
             String lastname = user.getLastname();
 
@@ -263,12 +263,10 @@
 
             request.setAttribute("user", user);
 
-      
-
 
         %>
-             
- <!-- Header -->
+
+        <!-- Header -->
         <div id="header">
             <div class="shell">
                 <!-- Logo + Top Nav -->
@@ -291,7 +289,7 @@
                 <!-- End Main Nav -->
             </div>
         </div>
-                <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
+        <hr style="height:3px;border:none;color:#5c9ccc;background-color:#5c9ccc; " />
         <!-- End Header -->
         <!-- Container -->
 
@@ -316,10 +314,10 @@
                         <div class="box-content"> 
                             <div class="cl">&nbsp;</div>
 
-                           <form action="StressMeasurementController"  method="POST" autocomplete="on">
-                                    <input type="hidden" id="smId" name="smId" value="${stressMeasurement.smId}"/>
-                                    <input type="hidden" id="username" name="username" value="${user.username}"/>
-                                
+                            <form action="StressMeasurementController"  method="POST" autocomplete="on">
+                                <input type="hidden" id="smId" name="smId" value="${stressMeasurement.smId}"/>
+                                <input type="hidden" id="username" name="username" value="${user.username}"/>
+
                                 <fieldset class="dashed_fieldset">
                                     <br />
                                     <div style="display:block; width:100%">
@@ -331,7 +329,7 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td ><label class="tooltip">Country<span class="tooltiptext">Country within which the measurement was done</span></label></td><td><select  id="country" name="country"onchange="showTd(this)" readonly>
-                                                                            <option value="<c:out value="${stressMeasurement.country}"/>"><c:out value="${stressMeasurement.country}"/></option>
+                                                                        <option value="<c:out value="${stressMeasurement.country}"/>"><c:out value="${stressMeasurement.country}"/></option>
                                                                         <c:forEach items="${countries}" var="list">
                                                                             <option value="<c:out value="${list}"/>"><c:out value="${list}"/></option>
                                                                         </c:forEach>
@@ -372,7 +370,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Grade<span class="tooltiptext">Individual measurement grading</span></label></td><td><select id="ig"  name="ig" readonly>
-                                                                         <option value="<c:out value="${stressMeasurement.ig}"/>"><c:out value="${stressMeasurement.ig}"/></option>
+                                                                        <option value="<c:out value="${stressMeasurement.ig}"/>"><c:out value="${stressMeasurement.ig}"/></option>
                                                                         <option value="A"/>A</option>
                                                                         <option value="B"/>B</option>
                                                                         <option value="C"/>C</option>
@@ -424,6 +422,16 @@
                                 <br/>
                                 <fieldset class="dashed_fieldset">
                                     <br />
+
+                                    <table>
+
+                                        <tr>
+                                            <td><label><strong>${stressMeasurement.ccs}</strong></label></td>
+
+
+                                        </tr>
+
+                                    </table>
                                     <center>
 
                                         <div style="display:block; width:100%">
@@ -432,6 +440,11 @@
                                                     <legend class="formLegend"><b>Cartesian stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left; margin-right:25px;">
                                                         <tbody>
+                                                            
+                                                            <tr>
+                                                                <td><label class="tooltip"></label></td><td><strong><i>${stressMeasurement.ccs}</i></strong></td>
+
+                                                            </tr>
                                                             <tr>
                                                                 <td><label class="tooltip">Sxx<span class="tooltiptext">Normal stress in X (North)</span></label></td><td><input type="text" id="sx"  name="sx" value="${stressMeasurement.sx}" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
@@ -461,7 +474,7 @@
 
                                                             </tr>
                                                             <tr>                           
-                                                                <td><label></label></td><td><button  class="button button2"  value="Calculate" id="Calculate" >Calculate principal stresses and k ratios</button></td>
+                                                                <td><label></label></td><td><button  class="button button2"  value="Calculate" id="Calculate" disabled>Calculate principal stresses and k ratios</button></td>
 
                                                             </tr>
 
@@ -504,12 +517,10 @@
                                                     </table>
                                                 </fieldset>
                                                 <fieldset class="inline" style="height: 300px;">
-                                                    <legend class="formLegend"><b>____</b></legend>
+                                                    <legend class="formLegend"><b>Horizontal plane stresses</b></legend>
                                                     <table border="0" cellpadding = "2" cellspacing="7" style="float:left">
                                                         <tbody>
-                                                            <tr>
-                                                                <td></td><td><legend class="formLegend"><b>Horizontal plane stresses</b></legend></td>
-                                                        </tr>
+                                                           
                                                         <tr>
                                                             <td><label class="tooltip">S<sub>H</sub><span class="tooltiptext">Major stress in the horizontal plane</span></label></td><td><input type="text" id="sh1"  name="sh1" value="${stressMeasurement.sh1}" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
 
@@ -520,6 +531,9 @@
                                                         </tr>
                                                         <tr>
                                                             <td><label class="tooltip">Ɵ<sub>h</sub><span class="tooltiptext">Bearing/azimuth of the major stress in the horizontal plane (anticlockwise from East)</span></label></td><td><input type="text" id="bsh1"  name="bsh1" value="${stressMeasurement.bsh1}" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">MPa</span> </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td></td><td><br></td>
                                                         </tr>
                                                         <tr>
                                                             <td></td><td><legend class="formLegend"><b>k ratios</b></legend></td>
@@ -534,10 +548,10 @@
                                                         </tr>
 
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>x</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}" readonly> </input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">K<sub>E-W</sub><span class="tooltiptext">Ratio of east-west horizontal stress (σx) to measured vertical stress (σy)</span></label></td><td><input type="text" id="kx"  name="kx" value="${stressMeasurement.kx}" readonly> </input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         <tr>
-                                                            <td><label class="tooltip">k<sub>z</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" value="${stressMeasurement.kz}" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
+                                                            <td><label class="tooltip">k<sub>N-S</sub><span class="tooltiptext">Ratio of north-south horizontal stress (σz) to expected vertical stress (σy)</span></label></td><td><input type="text" id="kz"  name="kz" value="${stressMeasurement.kz}" readonly></input><span style="margin-left:-35px; color: #bdbdbd;">deg</span> </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -545,7 +559,6 @@
 
                                             </div>
                                         </div> 
-
                                     </center>
                                     <br/>
                                 </fieldset>
@@ -609,7 +622,7 @@
                                 </fieldset>
                                 <br/>
                                 <center>
-                                     <button  name="action" class="button" value="us_cancel"/><b>Close</b></button>
+                                    <button  name="action" class="button" value="us_cancel"/><b>Close</b></button>
                                 </center>
                             </form>
                         </div>
@@ -620,7 +633,7 @@
         </div>
         <!-- End Container -->
         <!-- Footer -->
-        <div id="footer">
+        <div id="footer2">
             <div class="" style="text-align: center;"> <span class="center">Copyright &copy; CSIR 2017. All Rights Reserved.</span> <span class="right"></span> </div>
         </div>
         <!-- End Footer -->

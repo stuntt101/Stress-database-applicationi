@@ -24,6 +24,8 @@ public class DBUtil {
             Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/central_stress_measurements",
                     "root", "13579");
+            
+            
 
         } catch (Exception e) {
             e.printStackTrace();

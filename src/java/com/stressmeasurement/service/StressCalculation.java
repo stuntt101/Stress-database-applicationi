@@ -32,9 +32,10 @@ public class StressCalculation {
     public List<Double> getPrincipalEigenvalues(DoubleMatrix matrix) {
 
         List<Double> EigenValuesList = new ArrayList<Double>();// initialize a list to store eigenvalues
-        ComplexDoubleMatrix eigenvalues = Eigen.eigenvalues(matrix);// compute eigenvalues
-        for (ComplexDouble eigenvalue : eigenvalues.toArray()) {
-            Double value = Double.parseDouble(String.format("%.2f ", eigenvalue.abs()));
+        DoubleMatrix eigenvalues = Eigen.symmetricEigenvalues(matrix);// compute eigenvalues
+        for (double eigenvalue : eigenvalues.data) {
+            Double value = Double.parseDouble(String.format("%.2f ", eigenvalue));
+
             EigenValuesList.add(value);
             Collections.sort(EigenValuesList);
         }
@@ -106,20 +107,49 @@ public class StressCalculation {
 
         return EigenvectorList;
     }
+      /**
+     * Computes the eigenvectors for horizontal stress of a given matrix [mine coordinate system]
+     *
+     * @param matrix matrix in which eigenvectors are computed
+     * @return returns Principal eigenvectors in the order of [n3x, n3y,
+     * n3z,n2x, n2y, n2z,n1x, n1y, n1z]
+     */
+    public List<Double> getMCSHorizontalEigenvectors(Matrix matrix) {
+        List<Double> EigenvectorList = new ArrayList<Double>();
+
+        Double n2x, n2y, n1x, n1y;
+        matrix = matrix.transpose().times(matrix);
+        // compute the spectral decomposition
+        EigenvalueDecomposition e = matrix.eig();
+        Matrix V = e.getV().uminus();
+        n2x = -V.get(0, 0);
+        n2y = -V.get(1, 0);
+        n1x = V.get(0, 1);
+        n1y = V.get(1, 1);
+
+        EigenvectorList.add(n2x);
+        EigenvectorList.add(n2y);
+        EigenvectorList.add(n1x);
+        EigenvectorList.add(n1y);
+
+        return EigenvectorList;
+    }
 
     /**
-     * Computes the bearing and dips of a given matrix
+     * Computes the bearing and dips of a given matrix for database coordinate
+     * system
      *
      * @param matrix matrix in which bearing and dips are computed
      * @return bearing and dips list in the order of [bs3, bs2,
      * bs1,dips3,dips2,dips1]
      */
-    public List<Double> getBearingAndDips(Matrix matrix) {
+    public List<Double> getDCSBearingAndDips(Matrix matrix) {
         Double BS1, BS2, BS3, DIPS1, DIPS2, DIPS3;
         List<Double> BEARINGS_AND_DIPS = new ArrayList<Double>();// initialize a list to store bearings and dips
         List<Double> EigenvectorList = getPrincipalEigenvectors(matrix);
         //calculate bearings using the  formula:
         //bearing = (Math.atan2(nx,nz) * 180) / Math.PI;
+
         BS3 = (Math.atan2(EigenvectorList.get(0), EigenvectorList.get(2)) * 180) / Math.PI;
         BS2 = (Math.atan2(EigenvectorList.get(3), EigenvectorList.get(5)) * 180) / Math.PI;
         BS1 = (Math.atan2(EigenvectorList.get(6), EigenvectorList.get(8)) * 180) / Math.PI;
@@ -140,6 +170,80 @@ public class StressCalculation {
         if (BS1 < 0.0) {
             BS1 = BS1 + 180;
             DIPS1 = -DIPS1;
+        }
+
+        if (BS3 > 180) {
+            BS3 = BS3 - 180;
+
+        }
+        if (BS2 > 180) {
+            BS2 = BS2 - 180;
+
+        }
+        if (BS1 > 180) {
+            BS1 = BS1 - 180;
+
+        }
+        //add bearings to the list.
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS3)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS2)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS1)));
+
+        //add dips to the list
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", DIPS3)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", DIPS2)));
+        BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", DIPS1)));
+
+        return BEARINGS_AND_DIPS;
+    }
+
+    /**
+     * Computes the bearing and dips of a given matrix for mine coordinate
+     * system
+     *
+     * @param matrix matrix in which bearing and dips are computed
+     * @return bearing and dips list in the order of [bs3, bs2,
+     * bs1,dips3,dips2,dips1]
+     */
+    public List<Double> getMCSBearingAndDips(Matrix matrix) {
+        Double BS1, BS2, BS3, DIPS1, DIPS2, DIPS3;
+        List<Double> BEARINGS_AND_DIPS = new ArrayList<Double>();// initialize a list to store bearings and dips
+        List<Double> EigenvectorList = getPrincipalEigenvectors(matrix);
+        //calculate bearings using the  formula:
+        //bearing = (Math.atan2(nx,nz) * 180) / Math.PI;
+        BS3 = (Math.atan2(-EigenvectorList.get(1), -EigenvectorList.get(0)) * 180) / Math.PI;
+        BS2 = (Math.atan2(-EigenvectorList.get(4), -EigenvectorList.get(3)) * 180) / Math.PI;
+        BS1 = (Math.atan2(-EigenvectorList.get(7), -EigenvectorList.get(6)) * 180) / Math.PI;
+
+        //calculate dips using the  formula:
+        //dips=(Math.asin(ny) * 180) / Math.PI;
+        DIPS3 = (Math.asin(EigenvectorList.get(2)) * 180) / Math.PI;
+        DIPS2 = (Math.asin(EigenvectorList.get(5)) * 180) / Math.PI;
+        DIPS1 = (Math.asin(EigenvectorList.get(8)) * 180) / Math.PI;
+
+        if (BS3 < 0.0) {
+            BS3 = BS3 + 180;
+            DIPS3 = -DIPS3;
+        }
+        if (BS2 < 0.0) {
+            BS2 = BS2 + 180;
+            DIPS2 = -DIPS2;
+        }
+        if (BS1 < 0.0) {
+            BS1 = BS1 + 180;
+            DIPS1 = -DIPS1;
+        }
+        if (BS3 > 180) {
+            BS3 = BS3 - 180;
+
+        }
+        if (BS2 > 180) {
+            BS2 = BS2 - 180;
+
+        }
+        if (BS1 > 180) {
+            BS1 = BS1 - 180;
+
         }
         //add bearings to the list.
         BEARINGS_AND_DIPS.add(Double.parseDouble(String.format("%.0f", BS3)));
@@ -169,6 +273,30 @@ public class StressCalculation {
 
         if (BSH1 < 0.0) {
             BSH1 = BSH1 + 180;
+
+        }
+         if (BSH1 > 180) {
+            BSH1 = BSH1 -180;
+
+        }
+        BSH1 = Double.parseDouble(String.format("%.0f", BSH1));
+        Integer bearing = Integer.valueOf(BSH1.intValue());
+        return bearing;
+    }
+
+    public Integer getMCSBearing(Matrix matrix) {
+        Double BSH1;
+        List<Double> EigenvectorList = getHorizontalEigenvectors(matrix);
+        //calculate bearings using the  formula:
+        //bearing = (Math.atan2(nx,nz) * 180) / Math.PI;
+        BSH1 = (Math.atan2(-EigenvectorList.get(3),-EigenvectorList.get(2) ) * 180) / Math.PI;
+
+        if (BSH1 < 0.0) {
+            BSH1 = BSH1 + 180;
+
+        }
+         if (BSH1 > 180) {
+            BSH1 = BSH1 - 180;
 
         }
         BSH1 = Double.parseDouble(String.format("%.0f", BSH1));

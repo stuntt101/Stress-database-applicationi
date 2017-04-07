@@ -13,7 +13,7 @@ import Jama.EigenvalueDecomposition;
 
 public class Eigenvalues {
    public static void main(String[] args) { 
-      int N = 5;
+      int N = 3;
 
       // create a symmetric positive definite matrix
       //Matrix A = Matrix.random(N, N);
@@ -25,29 +25,29 @@ public class Eigenvalues {
        
            
        
+      // create a symmetric positive definite matrix
       Matrix A = new Matrix(vals);
-      
-      Matrix V = new Matrix(new double[][]{
-            {12.4800,  -6.7000},
-            {-6.7000,  21.2000}}
-        );
-      
-      V = V.transpose().times(V); 
+      A = A.transpose().times(A);
 
       // compute the spectral decomposition
-      EigenvalueDecomposition e = V.eig();
-       V = e.getV().uminus();
-      
+      EigenvalueDecomposition e = A.eig();
+      Matrix V = e.getV();
+      Matrix D = e.getD();
 
       System.out.print("A =");
-      V.print(9, 6);
-      
+      A.print(9, 6);
+      System.out.print("D =");
+      D.print(9, 6);
       System.out.print("V =");
       V.print(9, 6);
-      
-      System.out.print("n2x =");
-      Double n2x=V.get(0, 0);
-      System.out.print(n2x);
+
+      // check that V is orthogonal
+      System.out.print("||V * V^T - I|| = ");
+      System.out.println(V.times(V.transpose()).minus(Matrix.identity(N, N)).normInf());
+
+      // check that A V = D V
+      System.out.print("||AV - DV|| = ");
+      System.out.println(A.times(V).minus(V.times(D)).normInf());
       
       
    }
