@@ -19,6 +19,7 @@
    StressMeasurementService service = new StressMeasurementService();
    StressMeasurement stressMeasurement=service.getStressMeasurementById(q);
    name=stressMeasurement.getCountry();
+   //get lat and lng
    lng=stressMeasurement.getLongitude();
    lat=stressMeasurement.getLatitude();
    q2=stressMeasurement.getSmId();
